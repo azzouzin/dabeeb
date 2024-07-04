@@ -3,7 +3,7 @@ version: 1.0.0+1
 publish_to: none
 description: start your project in the fastest way
 environment:
-  sdk: '>=3.0.1 <4.0.0'
+  sdk: ">=3.0.1 <4.0.0"
 
 dependencies:
   cupertino_icons: ^1.0.5
@@ -26,10 +26,12 @@ dependencies:
   change_app_package_name: # change package name
   rename_app: 1.0.0 # rename app
 
-  flutter_svg:  # display svg vectors
+  flutter_svg: # display svg vectors
 
   flutter:
     sdk: flutter
+  rive: ^0.13.9
+  barcode_scan2: ^4.3.1
 
 dev_dependencies:
   mockito:
@@ -50,25 +52,16 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/avaters/
+    - assets/Backgrounds/
+    - assets/Fonts/
+    - assets/icons/
+    - assets/RiveAssets/
+    - assets/shapes/
     - assets/images/
-    - assets/vectors/
-    - assets/fonts/
 
   fonts:
     - family: Poppins
       fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
-          weight: 300
-        - asset: assets/fonts/Poppins-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/Fonts/Poppins-Bold.ttf
           weight: 700
-    - family: Cairo
-      fonts:
-        - asset: assets/fonts/Cairo-Regular.ttf
-          weight: 300
-        - asset: assets/fonts/Cairo-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Cairo-SemiBold.ttf
-          weight: 900
-

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // TODO add your light theme colors palette
 class LightThemeColors {
   // PRIMARY
-  static const Color primaryColor = Color(0xFF42A7DE);
+  static const Color primaryColor = Color.fromARGB(255, 16, 141, 243);
 
   // SECONDARY COLOR
   static const Color accentColor = Color(0xFFD9EDE1);
@@ -55,4 +55,8 @@ class LightThemeColors {
   static const Color employeeListItemNameColor = Color(0xFF4A4A4A);
   static const Color employeeListItemSubtitleColor = Color(0xFFA1A4B1);
   static const Color employeeListItemIconsColor = Color(0xFFA1A4B1);
+
+  static const Color backgroundColor2 = Color(0xFF17203A);
+  static const Color backgroundColorLight = Color(0xFFF2F6FF);
+  static const Color shadowColorLight = Color(0xFF4A5367);
 }

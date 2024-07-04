@@ -1,0 +1,11 @@
+import 'package:get/get.dart';
+
+
+class AddClientController extends GetxController {
+
+  @override
+  void onInit() {
+
+    super.onInit();
+  }
+}

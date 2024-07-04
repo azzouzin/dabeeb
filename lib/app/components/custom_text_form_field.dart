@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/config/theme/light_theme_colors.dart';
 import '../../../config/translations/strings_enum.dart';
 
 import 'custom_text.dart';
@@ -52,49 +53,70 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      inputFormatters: inputFormatters,
-      style: TextStyle(
-        color: Theme.of(context).textTheme.labelLarge!.color,
-      ),
-      controller: controller,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return Strings.enterValidData;
-        }
-        return null;
-      },
-      enabled: enable,
-      minLines: minLines,
-      maxLines: maxLines,
-      textAlign: textAlign ?? TextAlign.start,
-      decoration: InputDecoration(
-        hintText: (hintTxt ?? "").tr,
-        label: CustomText(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText(
           txt: label ?? "",
-          fontSize: 14.sp,
+          fontSize: 16.sp,
+          color: LightThemeColors.primaryColor,
           overflow: TextOverflow.ellipsis,
+          fontWeight: FontWeight.bold,
         ),
-        fillColor: fillColor ?? Theme.of(context).colorScheme.surface,
-        filled: true,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface,
+        8.verticalSpace,
+        TextFormField(
+          inputFormatters: inputFormatters,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.labelLarge!.color,
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.onSurface,
+          controller: controller,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return Strings.enterValidData;
+            }
+            return null;
+          },
+          enabled: enable,
+          minLines: minLines,
+          maxLines: maxLines,
+          textAlign: textAlign ?? TextAlign.start,
+          decoration: InputDecoration(
+            hintText: (hintTxt ?? "").tr,
+
+            /*  label: CustomText(
+              txt: label ?? "",
+              fontSize: 14.sp,
+              overflow: TextOverflow.ellipsis,
+            ),*/
+            fillColor: fillColor ?? Theme.of(context).colorScheme.surface,
+            filled: true,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(25),
+                bottomRight: Radius.circular(25),
+                bottomLeft: Radius.circular(25),
+              ),
+              borderSide: BorderSide(
+                color: Color.fromARGB(255, 134, 133, 133).withOpacity(0.5),
+                width: 1.5.w,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16.r),
+              borderSide: BorderSide(
+                color: LightThemeColors.primaryColor,
+                width: 2.w,
+              ),
+            ),
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
           ),
+          onChanged: (value) => onChange ?? () {},
+          keyboardType: keyboardType,
+          obscureText: obscureText!,
         ),
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-      ),
-      onChanged: (value) => onChange ?? () {},
-      keyboardType: keyboardType,
-      obscureText: obscureText!,
+      ],
     );
   }
 }

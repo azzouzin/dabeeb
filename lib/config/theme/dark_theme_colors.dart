@@ -55,4 +55,10 @@ class DarkThemeColors {
   static const Color employeeListItemNameColor = Colors.white;
   static const Color employeeListItemSubtitleColor = Color(0xFFEDEDED);
   static const Color employeeListItemIconsColor = Color(0xFFEDEDED);
+
+
+  
+  static const Color shadowColorDark = Colors.black;
+  static const Color backgroundColorDark = Color(0xFF25254B);
+
 }

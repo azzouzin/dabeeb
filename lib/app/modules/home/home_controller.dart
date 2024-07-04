@@ -1,49 +1,35 @@
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/data/models/client_model.dart';
 
-import '../../../utils/constants.dart';
 import '../../data/remote/api_call_status.dart';
-import '../../data/remote/base_client.dart';
 
 class HomeController extends GetxController {
   // hold data coming from api
-  List<Map<dynamic, dynamic>> data = [];
+  List<ClientModel> clients = List.generate(
+      10,
+      (i) => ClientModel(
+            id: i + 1,
+            name: 'name $i',
+            phone: 'phone $i',
+            address: 'address $i',
+            email: 'email $i',
+          ));
 
   // api call status
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
 
   // getting data from api
-  getData() async {
-    // *) perform api call
-    await BaseClient.safeApiCall(
-      Constants.todosApiUrl,
-      RequestType.get,
-      onLoading: () {
-        // *) indicate loading state
-        apiCallStatus = ApiCallStatus.loading;
-        update();
-      },
-      onSuccess: (response) {
-        // api done successfully
-        data = List.from(response.data);
-        // *) indicate success state
-        apiCallStatus = ApiCallStatus.success;
-        update();
-      },
-      // if you don't pass this method base client
-      // will automaticly handle error and show message to user
-      onError: (error) {
-        // show error message to user
-        BaseClient.handleApiError(error);
-        // *) indicate error status
-        apiCallStatus = ApiCallStatus.error;
-        update();
-      },
-    );
+  Future<void> getClients() async {
+    apiCallStatus = ApiCallStatus.loading;
+    update();
+    await Future.delayed(Duration(seconds: 2));
+    apiCallStatus = ApiCallStatus.success;
+    update();
   }
 
   @override
   void onInit() {
-    getData();
     super.onInit();
+    getClients();
   }
 }
