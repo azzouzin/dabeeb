@@ -8,8 +8,10 @@ import '../../components/custom_text_form_field.dart';
 import './addclient_controller.dart';
 
 class AddClientView extends GetView<AddClientController> {
-  const AddClientView({super.key});
+  AddClientView({super.key});
 
+  final nameController = TextEditingController();
+  final addressController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +26,14 @@ class AddClientView extends GetView<AddClientController> {
               children: [
                 CustomTextFormField(
                   label: "Client Name",
-                
+                  controller: nameController,
                 ),
+                15.verticalSpace,
+                CustomTextFormField(
+                  label: "Adress",
+                  controller: addressController,
+                ),
+                Spacer(),
                 Row(
                   children: [
                     Expanded(
@@ -45,7 +53,13 @@ class AddClientView extends GetView<AddClientController> {
                         color: const Color.fromARGB(255, 51, 150, 231),
                         //   color: const Color.fromARGB(255, 51, 150, 231),
                         high: 75.h,
-                        onPressed: () {},
+                        onPressed: () {
+                          controller.addClient(
+                            nameController.text,
+                            addressController.text,
+                            1,
+                          );
+                        },
                       ),
                     ),
                   ],

@@ -6,6 +6,7 @@ import 'package:rive/rive.dart';
 
 import 'components/animated_btn.dart';
 import 'components/custom_sign_in.dart';
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -59,7 +60,7 @@ class _LoginViewState extends State<LoginView> {
                       width: 260,
                       child: Column(children: [
                         Text(
-                          "Learn design & code",
+                          "Dabbeeb App Scan and Sell",
                           style: TextStyle(
                               fontSize: 60, fontFamily: "Poppins", height: 1.2),
                         ),
@@ -67,7 +68,8 @@ class _LoginViewState extends State<LoginView> {
                           height: 16,
                         ),
                         Text(
-                            "Don't skip design. Learn design and code, by builder real apps with Flutter and Swift. Complete courses about best tools.")
+                          "QR CODE SCANNER QUICKLY SCAN AND SELL YOUR PRODUCTS WITH DABBEEB APP",
+                        )
                       ]),
                     ),
                     const Spacer(
@@ -92,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.0),
                       child: Text(
-                        "Purchase includes access to 30+ courses, 240+ premium tutorials, 120+ hours of videos, source files and certificates",
+                        "Purchase includes access to 30+ products, 240+ premium products, and much more!",
                         style: TextStyle(),
                       ),
                     )

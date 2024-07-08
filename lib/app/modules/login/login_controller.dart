@@ -1,49 +1,59 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/data/local/shared_pref.dart';
+import 'package:getx_skeleton/app/data/remote/error_handler.dart';
+import 'package:getx_skeleton/app/routes/routes.dart';
+import 'package:getx_skeleton/config/translations/strings_enum.dart';
+import 'package:logger/logger.dart';
 
 import '../../../../utils/constants.dart';
+import '../../data/models/user_model.dart';
 import '../../data/remote/api_call_status.dart';
 import '../../data/remote/base_client.dart';
 
 class LoginController extends GetxController {
   // hold data coming from api
-  List<dynamic>? data;
-
+  UserModel? appUser;
+  String? accessToken;
   // api call status
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
-
-  // getting data from api
-  getData() async {
-    // *) perform api call
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  Future<bool> login() async {
+    apiCallStatus = ApiCallStatus.loading;
+    bool isSeccssful = false;
+    update();
     await BaseClient.safeApiCall(
-      Constants.todosApiUrl, // url
-      RequestType.get, // request type (get,post,delete,put)
-      onLoading: () {
-        // *) indicate loading state
-        apiCallStatus = ApiCallStatus.loading;
-        update();
+      Constants.login,
+      RequestType.post,
+      data: {
+        "username": usernameController.text,
+        "password": passwordController.text,
       },
       onSuccess: (response) {
-        // api done successfully
-        data = List.from(response.data);
-        // *) indicate success state
+        Logger().i(response.headers.map["authorization"]);
+        final result = response.headers.map["authorization"]!.first;
+
+        SharedPref.setAuthorizationToken(result);
+
+        setToken(result);
+        print(SharedPref.getAuthorizationToken());
+        //  appUser = UserModel.fromJson(response.data);
+        // -) indicate success state
         apiCallStatus = ApiCallStatus.success;
         update();
+        isSeccssful = true;
+        Get.toNamed(Routes.HOME);
       },
-      // if you don't pass this method base client
-      // will automaticly handle error and show message to user
-      onError: (error) {
-        // show error message to user
-        BaseClient.handleApiError(error);
-        // *) indicate error status
-        apiCallStatus = ApiCallStatus.error;
-        update();
+      onError: (p0) {
+        ErrorHandler.handelError(p0);
+        isSeccssful = false;
       },
     );
+    return isSeccssful;
   }
 
-  @override
-  void onInit() {
-    getData();
-    super.onInit();
+  void setToken(token) {
+    accessToken = token;
   }
 }

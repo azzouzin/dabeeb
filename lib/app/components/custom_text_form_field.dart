@@ -15,7 +15,7 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final Function? onPressedPrefixIcon;
   final VoidCallback? onPressedSuffixIcon;
-  final Function? onChange;
+  final Function(String)? onChange;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final Color? fillColor;
@@ -98,7 +98,7 @@ class CustomTextFormField extends StatelessWidget {
                 bottomLeft: Radius.circular(25),
               ),
               borderSide: BorderSide(
-                color: Color.fromARGB(255, 134, 133, 133).withOpacity(0.5),
+                color: Get.theme.secondaryHeaderColor,
                 width: 1.5.w,
               ),
             ),
@@ -112,7 +112,7 @@ class CustomTextFormField extends StatelessWidget {
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
           ),
-          onChanged: (value) => onChange ?? () {},
+          onChanged: onChange,
           keyboardType: keyboardType,
           obscureText: obscureText!,
         ),

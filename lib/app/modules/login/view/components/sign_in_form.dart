@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/cart/view/cart_view.dart';
+import 'package:getx_skeleton/app/modules/login/login_controller.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../../config/theme/light_theme_colors.dart';
@@ -26,7 +28,7 @@ class _SignInFormState extends State<SignInForm> {
   late SMITrigger reset;
 
   late SMITrigger confetti;
-
+  LoginController controller = Get.put(LoginController());
   StateMachineController getRiveController(Artboard artboard) {
     StateMachineController? controller =
         StateMachineController.fromArtboard(artboard, "State Machine 1");
@@ -34,21 +36,23 @@ class _SignInFormState extends State<SignInForm> {
     return controller;
   }
 
-  void signIn(BuildContext context) {
+  void signIn(BuildContext context) async {
     setState(() {
       isShowLoading = true;
       isShowConfetti = true;
     });
-    Future.delayed(Duration(seconds: 1), () {
-      if (_formKey.currentState!.validate()) {
+    bool resp = await controller.login();
+    Future.delayed(Duration(seconds: 0), () {
+      if (_formKey.currentState!.validate() && resp) {
         // show success
         check.fire();
+
         Future.delayed(Duration(seconds: 2), () {
           setState(() {
             isShowLoading = false;
           });
           confetti.fire();
-          Get.toNamed(Routes.HOME);
+          // Get.toNamed(Routes.HOME);
         });
       } else {
         error.fire();
@@ -83,6 +87,7 @@ class _SignInFormState extends State<SignInForm> {
                       }
                       return null;
                     },
+                    controller: controller.usernameController,
                     onSaved: (email) {},
                     decoration: InputDecoration(
                         prefixIcon: Padding(
@@ -98,6 +103,7 @@ class _SignInFormState extends State<SignInForm> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 16),
                   child: TextFormField(
+                    controller: controller.passwordController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "";

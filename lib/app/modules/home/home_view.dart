@@ -20,10 +20,10 @@ class HomeView extends GetView<HomeController> {
         child: const Icon(Icons.add),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(25),
-            bottomRight: Radius.circular(25),
-            bottomLeft: Radius.circular(25),
+            topLeft: Radius.circular(10.r),
+            topRight: Radius.circular(25.r),
+            bottomRight: Radius.circular(25.r),
+            bottomLeft: Radius.circular(25.r),
           ),
         ),
         onPressed: () {
@@ -53,41 +53,54 @@ class HomeView extends GetView<HomeController> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 12.w, vertical: 2.0.w),
                         child: CustomTextFormField(
+                          controller: controller.searchController,
                           hintTxt: "Search",
-                          prefixIcon: Icon(Icons.search),
+                          prefixIcon: const Icon(Icons.search),
+                          onChange: (value) {
+                            controller.searchWordChanged(
+                                controller.searchController.text);
+                          },
                         ),
                       ),
                       ...controller.clients
                           .map(
-                            (e) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 12,
-                              ),
-                              child: InkWell(
-                                onTap: () async {
-                                  var result = await BarcodeScanner.scan(
-                                    options: ScanOptions(),
-                                  );
-                                  print(result
-                                      .type); // The result type (barcode, cancelled, failed)
-                                  print(
-                                      result.rawContent); // The barcode content
-                                  print(result
-                                      .format); // The barcode format (as enum)
-                                  print(result
-                                      .formatNote); // If a unknown format was scanned this field contains a note
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomText(txt: e.name),
-                                    CustomText(txt: e.phone),
-                                    CustomText(txt: e.email),
-                                    CustomText(txt: e.address),
-                                  ],
-                                ),
+                            (e) => InkWell(
+                              onTap: () async {
+                                var result = await BarcodeScanner.scan(
+                                  options: const ScanOptions(),
+                                );
+                                print(result
+                                    .type); // The result type (barcode, cancelled, failed)
+                                print(result.rawContent); // The barcode content
+                                print(result
+                                    .format); // The barcode format (as enum)
+                                print(result
+                                    .formatNote); // If a unknown format was scanned this field contains a note
+
+                                Get.toNamed(Routes.CART);
+                              },
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 12.w,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(txt: e.societe ?? ""),
+                                        CustomText(txt: e.mobileId.toString()),
+                                        CustomText(txt: e.email ?? ""),
+                                        CustomText(txt: e.adresse ?? ""),
+                                      ],
+                                    ),
+                                  ),
+                                  const Divider(
+                                    color: Colors.grey,
+                                  )
+                                ],
                               ),
                             ),
                           )

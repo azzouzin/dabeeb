@@ -4,7 +4,7 @@ import '../../../../utils/constants.dart';
 import '../../data/remote/api_call_status.dart';
 import '../../data/remote/base_client.dart';
 
-class BarCodeScannerController extends GetxController {
+class CartController extends GetxController {
   // hold data coming from api
   List<dynamic>? data;
 
