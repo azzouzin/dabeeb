@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../modules/home/home_binding.dart';
-import '../modules/home/home_view.dart';
+import '../modules/home/view/home_view.dart';
 import 'routes.dart';
 import '../modules/login/login_binding.dart';
 import '../modules/login/view/login_view.dart';
@@ -13,6 +13,12 @@ import '../modules/addclient/addclient_view.dart';
 import 'routes.dart';
 import '../modules/cart/cart_binding.dart';
 import '../modules/cart/view/cart_view.dart';
+import 'routes.dart';
+import '../modules/productlist/productlist_binding.dart';
+import '../modules/productlist/productlist_view.dart';
+import 'routes.dart';
+import '../modules/productdetails/productdetails_binding.dart';
+import '../modules/productdetails/productdetails_view.dart';
 import 'routes.dart';
 
 class AppPages {
@@ -41,6 +47,16 @@ class AppPages {
       name: Routes.CART,
       page: () => CartView(),
       binding: CartBinding(),
+    ),
+    GetPage(
+      name: Routes.PRODUCTLIST,
+      page: () => const ProductlistView(),
+      binding: ProductlistBinding(),
+    ),
+    GetPage(
+      name: Routes.PRODUCTDETAILS,
+      page: () => ProductDetailsView(),
+      binding: ProductDetailsBinding(),
     ),
   ];
 }

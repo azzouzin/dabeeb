@@ -28,7 +28,7 @@ class CartView extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: controller.allProducts.map((product) {
-          product.priceControlller.text = product.price.toString();
+          product.textEditingController.text = product.prixVente.toString();
           return Container(
             width: double.infinity,
             margin: const EdgeInsets.all(15),
@@ -56,7 +56,7 @@ class CartView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Image.network(
-                          product.images[0],
+                          "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/newscms/2021_07/3451045/210218-product-of-the-year-2x1-cs.jpg",
                           width: 100,
                           height: 90,
                         ),
@@ -68,7 +68,7 @@ class CartView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.name,
+                      product.product!.designation ?? "Desgniation",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -81,7 +81,7 @@ class CartView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextField(
-                            controller: product.priceControlller,
+                            controller: product.textEditingController,
                             keyboardType: TextInputType.number,
                             style: TextStyle(
                               fontWeight: FontWeight.w900,
@@ -115,7 +115,7 @@ class CartView extends StatelessWidget {
                                     child: Text(
                                       '${product.quantity}',
                                       key: ValueKey<int>(
-                                        product.quantity,
+                                        product.quantity!,
                                       ),
                                       style: const TextStyle(
                                         fontSize: 18,

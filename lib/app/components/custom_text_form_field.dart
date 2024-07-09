@@ -16,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function? onPressedPrefixIcon;
   final VoidCallback? onPressedSuffixIcon;
   final Function(String)? onChange;
+  final Function()? onCompleted;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final Color? fillColor;
@@ -49,6 +50,7 @@ class CustomTextFormField extends StatelessWidget {
     this.initValue = "",
     this.inputFormatters,
     this.textAlign,
+    this.onCompleted,
   });
 
   @override
@@ -70,6 +72,7 @@ class CustomTextFormField extends StatelessWidget {
             color: Theme.of(context).textTheme.labelLarge!.color,
           ),
           controller: controller,
+          onEditingComplete: onCompleted,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return Strings.enterValidData;
