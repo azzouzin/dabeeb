@@ -13,8 +13,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:loadmore/loadmore.dart';
 
 import '../home_controller.dart';
-import 'package:barcode_scan2/barcode_scan2.dart';
-
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
 

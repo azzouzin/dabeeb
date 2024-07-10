@@ -1,22 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:getx_skeleton/app/modules/cart/cart_controller.dart';
 import 'package:getx_skeleton/config/theme/light_theme_colors.dart';
 
-import '../../../../config/products_controller.dart';
 import '../../../components/animation_switcher_wrapper.dart';
 import '../../../components/custom_button.dart';
+import '../../../routes/routes.dart';
 import 'componants/empty_cart.dart';
 
-final ProductController controller = Get.put(ProductController());
-
 class CartView extends StatelessWidget {
-  const CartView({super.key});
+  CartView({super.key});
+  final CartController controller = Get.find();
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
+      leading: InkWell(
+          onTap: () => Get.back(),
+          child: Icon(Icons.arrow_back_ios_new, color: Colors.black)),
       title: Text(
         "My cart",
         style: Theme.of(context).textTheme.displayLarge,
@@ -27,15 +32,14 @@ class CartView extends StatelessWidget {
   Widget cartList() {
     return SingleChildScrollView(
       child: Column(
-        children: controller.allProducts.map((product) {
-          product.textEditingController.text = product.prixVente.toString();
+        children: controller.cartProducts.map((product) {
           return Container(
             width: double.infinity,
-            margin: const EdgeInsets.all(15),
-            padding: const EdgeInsets.all(15),
+            margin: EdgeInsets.all(8.w),
+            padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
               color: Colors.grey[200]?.withOpacity(0.6),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
             child: Wrap(
               spacing: 10,
@@ -43,45 +47,72 @@ class CartView extends StatelessWidget {
               crossAxisAlignment: WrapCrossAlignment.center,
               alignment: WrapAlignment.spaceEvenly,
               children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: LightThemeColors.accentColor,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Padding(
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () => Get.toNamed(
+                        Routes.PRODUCTDETAILS,
+                        arguments: {
+                          "product": product,
+                          "NonEditableProduct": true
+                        },
+                      ),
+                      child: Container(
                         padding: const EdgeInsets.all(5),
-                        child: Image.network(
-                          "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/newscms/2021_07/3451045/210218-product-of-the-year-2x1-cs.jpg",
-                          width: 100,
-                          height: 90,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: LightThemeColors.accentColor,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(20.r)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: product.images.isEmpty
+                                  ? Icon(Icons.info_outline_rounded)
+                                  : SizedBox(
+                                      width: 75.w,
+                                      child: Image.memory(
+                                        base64Decode(
+                                          product.images.first.split(',').last,
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    8.horizontalSpace,
+                    Expanded(
+                      child: Text(
+                        product.product!.designation ?? "Desgniation",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                        onTap: () => controller.removeProduct(product),
+                        child:
+                            Icon(Icons.delete, color: Colors.red, size: 20.sp)),
+                  ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      product.product!.designation ?? "Desgniation",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Expanded(
                           child: TextField(
-                            controller: product.textEditingController,
+                            controller: product.priceController,
+                            onEditingComplete: () =>
+                                controller.calculateTotalPrice(),
                             keyboardType: TextInputType.number,
                             style: TextStyle(
                               fontWeight: FontWeight.w900,
@@ -91,58 +122,45 @@ class CartView extends StatelessWidget {
                           ),
                         ),
                         15.horizontalSpace,
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                splashRadius: 10.0,
-                                onPressed: () =>
-                                    controller.decreaseItemQuantity(product),
-                                icon: const Icon(
-                                  Icons.remove,
-                                  color: Color(0xFFEC6813),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  splashRadius: 10.0,
+                                  onPressed: () =>
+                                      controller.decreaseItemQuantity(product),
+                                  icon: const Icon(
+                                    Icons.remove,
+                                    color: Color(0xFFEC6813),
+                                  ),
                                 ),
-                              ),
-                              GetBuilder<ProductController>(
-                                builder: (ProductController controller) {
-                                  return AnimatedSwitcherWrapper(
-                                    child: Text(
-                                      '${product.quantity}',
-                                      key: ValueKey<int>(
-                                        product.quantity!,
-                                      ),
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                splashRadius: 10.0,
-                                onPressed: () =>
-                                    controller.increaseItemQuantity(product),
-                                icon: const Icon(Icons.add,
-                                    color: Color(0xFFEC6813)),
-                              ),
-                            ],
+                                Expanded(
+                                  child: TextField(
+                                    controller: product.qtyController,
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.center,
+                                    onChanged: (value) => controller.changeQty(
+                                        value, product.id!),
+                                  ),
+                                ),
+                                IconButton(
+                                  splashRadius: 10.0,
+                                  onPressed: () =>
+                                      controller.increaseItemQuantity(product),
+                                  icon: const Icon(Icons.add,
+                                      color: Color(0xFFEC6813)),
+                                ),
+                              ],
+                            ),
                           ),
                         )
-
-                        // Text(
-                        //   "DZD",
-                        //   style: const TextStyle(
-                        //     fontWeight: FontWeight.w900,
-                        //     fontSize: 23,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ],
@@ -171,7 +189,7 @@ class CartView extends StatelessWidget {
               return AnimatedSwitcherWrapper(
                 child: Text(
                   "\$${controller.totalPrice.value}",
-                  key: ValueKey<int>(controller.totalPrice.value),
+                  key: ValueKey<double>(controller.totalPrice.value),
                   style: const TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w900,
@@ -204,7 +222,6 @@ class CartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.getCartItems();
     return Scaffold(
       appBar: _appBar(context),
       body: Column(

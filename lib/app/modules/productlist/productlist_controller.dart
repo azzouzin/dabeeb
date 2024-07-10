@@ -13,6 +13,7 @@ import '../../routes/routes.dart';
 class ProductlistController extends GetxController {
   // hold data coming from api
   List<ProductModel> products = [];
+  ProductModel? product;
   LoginController loginController = Get.put(LoginController());
   TextEditingController searchController = TextEditingController();
   // api call status
@@ -26,23 +27,26 @@ class ProductlistController extends GetxController {
     // update();
     Logger().wtf("$keyword $pageIndicator");
     await BaseClient.safeApiCall(
-        "${Constants.products}?keyword=$keyword&page=$pageIndicator&size=10&sort=product.designation,dateExpiration,asc&idProduct=0&deleted=false&hasQte=0",
-        RequestType.get,
-        headers: {
-          'Authorization': loginController.accessToken
-        }, onSuccess: (response) {
-      for (var element in response.data['content']) {
-        products.add(ProductModel.fromJson(element));
-      }
-      pageIndicator++;
-      if (response.data['last'] == true) {
-        isFinished = true;
+      "${Constants.products}?keyword=$keyword&page=$pageIndicator&size=10&sort=product.designation,dateExpiration,asc&idProduct=0&deleted=false&hasQte=0",
+      RequestType.get,
+      headers: {'Authorization': loginController.accessToken},
+      onSuccess: (response) {
+        for (var element in response.data['content']) {
+          products.add(ProductModel.fromJson(element));
+          Logger().wtf(element);
+          Logger().i(products.last.toJson());
+        }
+        pageIndicator++;
+        if (response.data['last'] == true) {
+          isFinished = true;
+          update();
+        }
         update();
-      }
-      update();
-    }, onError: (p0) {
-      ErrorHandler.handelError(p0);
-    });
+      },
+      onError: (p0) {
+        ErrorHandler.handelError(p0);
+      },
+    );
     apiCallStatus = ApiCallStatus.success;
     update();
   }
@@ -55,7 +59,8 @@ class ProductlistController extends GetxController {
   }
 
   void onProductTapped(ProductModel product) {
-    Get.toNamed(Routes.PRODUCTDETAILS, arguments: {"product":product});
+    this.product = product;
+    Get.toNamed(Routes.PRODUCTDETAILS, arguments: {"product": product});
   }
 
   @override

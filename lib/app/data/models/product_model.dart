@@ -3,38 +3,41 @@ import 'package:flutter/material.dart';
 class ProductModel {
   int? id;
   String? code;
-  int? prixAchat;
-  int? prixVente;
-  int? prixVente2;
-  int? prixVente3;
-  int? prixVente4;
-  int? prixVenteMin;
-  int? qte;
-  int? qte1;
-  int? qte2;
-  int? qte3;
-  int? qte4;
-  int? qte5;
-  int? qte6;
-  int? qte7;
+  double? prixAchat;
+  double? prixVente;
+  double? prixVente2;
+  double? prixVente3;
+  double? prixVente4;
+  double? prixVenteMin;
+  double? qte;
+  double? qte1;
+  double? qte2;
+  double? qte3;
+  double? qte4;
+  double? qte5;
+  double? qte6;
+  double? qte7;
   dynamic dateExpiration;
   Product? product;
   bool? bloque;
   dynamic barcode;
-  String? fournisseur;
-  String? codeAchat;
-  String? dateAchat;
-  int? quantity;
-  int? qteUniteMesure;
+  dynamic fournisseur;
+  dynamic codeAchat;
+  dynamic dateAchat;
+  double? qteUniteMesure;
   String? refFournisseur;
-  TextEditingController textEditingController = TextEditingController();
-
+  double? quantity;
+  TextEditingController? qtyController;
+  TextEditingController? priceController;
+  List<String> images = [];
   ProductModel(
       {this.id,
       this.code,
-      required this.textEditingController,
+      this.quantity = 1,
+      this.qtyController,
+      this.images = const [],
+      this.priceController,
       this.prixAchat,
-      this.quantity = 0,
       this.prixVente,
       this.prixVente2,
       this.prixVente3,
@@ -59,81 +62,35 @@ class ProductModel {
       this.refFournisseur});
 
   ProductModel.fromJson(Map<String, dynamic> json) {
-    if (json["id"] is int) {
-      id = json["id"];
-    }
-    if (json["code"] is String) {
-      code = json["code"];
-    }
-    if (json["prixAchat"] is int) {
-      prixAchat = json["prixAchat"];
-    }
-    if (json["prixVente"] is int) {
-      prixVente = json["prixVente"];
-    }
-    if (json["prixVente2"] is int) {
-      prixVente2 = json["prixVente2"];
-    }
-    if (json["prixVente3"] is int) {
-      prixVente3 = json["prixVente3"];
-    }
-    if (json["prixVente4"] is int) {
-      prixVente4 = json["prixVente4"];
-    }
-    if (json["prixVenteMin"] is int) {
-      prixVenteMin = json["prixVenteMin"];
-    }
-    if (json["qte"] is int) {
-      qte = json["qte"];
-    }
-    if (json["qte1"] is int) {
-      qte1 = json["qte1"];
-    }
-    if (json["qte2"] is int) {
-      qte2 = json["qte2"];
-    }
-    if (json["qte3"] is int) {
-      qte3 = json["qte3"];
-    }
-    if (json["qte4"] is int) {
-      qte4 = json["qte4"];
-    }
-    if (json["qte5"] is int) {
-      qte5 = json["qte5"];
-    }
-    if (json["qte6"] is int) {
-      qte6 = json["qte6"];
-    }
-    if (json["qte7"] is int) {
-      qte7 = json["qte7"];
-    }
+    id = json["id"];
+    code = json["code"];
+    prixAchat = json["prixAchat"];
+    prixVente = json["prixVente"];
+    prixVente2 = json["prixVente2"];
+    prixVente3 = json["prixVente3"];
+    prixVente4 = json["prixVente4"];
+    prixVenteMin = json["prixVenteMin"];
+    qte = json["qte"];
+    qte1 = json["qte1"];
+    qte2 = json["qte2"];
+    qte3 = json["qte3"];
+    qte4 = json["qte4"];
+    qte5 = json["qte5"];
+    qte6 = json["qte6"];
+    qte7 = json["qte7"];
     dateExpiration = json["dateExpiration"];
-    if (json["product"] is Map) {
-      product =
-          json["product"] == null ? null : Product.fromJson(json["product"]);
-    }
-    if (json["bloque"] is bool) {
-      bloque = json["bloque"];
-    }
+    product =
+        json["product"] == null ? null : Product.fromJson(json["product"]);
+    bloque = json["bloque"];
     barcode = json["barcode"];
-    if (json["fournisseur"] is String) {
-      fournisseur = json["fournisseur"];
-    }
-    if (json["codeAchat"] is String) {
-      codeAchat = json["codeAchat"];
-    }
-    if (json["dateAchat"] is String) {
-      dateAchat = json["dateAchat"];
-    }
-    if (json["qteUniteMesure"] is int) {
-      qteUniteMesure = json["qteUniteMesure"];
-    }
-    if (json["refFournisseur"] is String) {
-      refFournisseur = json["refFournisseur"];
-    }
-
-    textEditingController = TextEditingController();
-    quantity = 0;
+    fournisseur = json["fournisseur"];
+    codeAchat = json["codeAchat"];
+    dateAchat = json["dateAchat"];
+    qteUniteMesure = json["qteUniteMesure"];
+    refFournisseur = json["refFournisseur"];
+    quantity = 1;
+    qtyController = TextEditingController(text: '1');
+    priceController = TextEditingController();
   }
 
   Map<String, dynamic> toJson() {
@@ -173,19 +130,19 @@ class Product {
   int? id;
   String? code;
   String? designation;
-  int? qte;
-  int? qte1;
-  int? qte2;
-  int? qte3;
-  int? qte4;
-  int? qte5;
-  int? qte6;
-  int? qte7;
-  int? prixUnitaire;
-  int? prixDetail;
-  int? prixGros;
-  int? prixSpecial;
-  int? prix4;
+  double? qte;
+  double? qte1;
+  double? qte2;
+  double? qte3;
+  double? qte4;
+  double? qte5;
+  double? qte6;
+  double? qte7;
+  double? prixUnitaire;
+  double? prixDetail;
+  double? prixGros;
+  double? prixSpecial;
+  double? prix4;
   int? tva;
   dynamic barcode;
   bool? bloque;
@@ -214,64 +171,26 @@ class Product {
       this.shortDesignation});
 
   Product.fromJson(Map<String, dynamic> json) {
-    if (json["id"] is int) {
-      id = json["id"];
-    }
-    if (json["code"] is String) {
-      code = json["code"];
-    }
-    if (json["designation"] is String) {
-      designation = json["designation"];
-    }
-    if (json["qte"] is int) {
-      qte = json["qte"];
-    }
-    if (json["qte1"] is int) {
-      qte1 = json["qte1"];
-    }
-    if (json["qte2"] is int) {
-      qte2 = json["qte2"];
-    }
-    if (json["qte3"] is int) {
-      qte3 = json["qte3"];
-    }
-    if (json["qte4"] is int) {
-      qte4 = json["qte4"];
-    }
-    if (json["qte5"] is int) {
-      qte5 = json["qte5"];
-    }
-    if (json["qte6"] is int) {
-      qte6 = json["qte6"];
-    }
-    if (json["qte7"] is int) {
-      qte7 = json["qte7"];
-    }
-    if (json["prixUnitaire"] is int) {
-      prixUnitaire = json["prixUnitaire"];
-    }
-    if (json["prixDetail"] is int) {
-      prixDetail = json["prixDetail"];
-    }
-    if (json["prixGros"] is int) {
-      prixGros = json["prixGros"];
-    }
-    if (json["prixSpecial"] is int) {
-      prixSpecial = json["prixSpecial"];
-    }
-    if (json["prix4"] is int) {
-      prix4 = json["prix4"];
-    }
-    if (json["tva"] is int) {
-      tva = json["tva"];
-    }
+    id = json["id"];
+    code = json["code"];
+    designation = json["designation"];
+    qte = json["qte"];
+    qte1 = json["qte1"];
+    qte2 = json["qte2"];
+    qte3 = json["qte3"];
+    qte4 = json["qte4"];
+    qte5 = json["qte5"];
+    qte6 = json["qte6"];
+    qte7 = json["qte7"];
+    prixUnitaire = json["prixUnitaire"];
+    prixDetail = json["prixDetail"];
+    prixGros = json["prixGros"];
+    prixSpecial = json["prixSpecial"];
+    prix4 = json["prix4"];
+    tva = json["tva"];
     barcode = json["barcode"];
-    if (json["bloque"] is bool) {
-      bloque = json["bloque"];
-    }
-    if (json["shortDesignation"] is String) {
-      shortDesignation = json["shortDesignation"];
-    }
+    bloque = json["bloque"];
+    shortDesignation = json["shortDesignation"];
   }
 
   Map<String, dynamic> toJson() {

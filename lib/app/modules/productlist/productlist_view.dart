@@ -1,3 +1,5 @@
+import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:barcode_scan2/model/model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:getx_skeleton/app/components/api_handle_ui_widget.dart';
 import 'package:loadmore/loadmore.dart';
 
 import '../../components/custom_text_form_field.dart';
+import '../../routes/routes.dart';
 import './productlist_controller.dart';
 
 class ProductlistView extends GetView<ProductlistController> {
@@ -13,9 +16,21 @@ class ProductlistView extends GetView<ProductlistController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        controller.getData("");
-      }),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.qr_code_2_sharp),
+          onPressed: () async {
+            //controller.getData("");
+            var result = await BarcodeScanner.scan(
+              options: const ScanOptions(),
+            );
+            print(result.type); // The result type (barcode, cancelled, failed)
+            print(result.rawContent); // The barcode content
+            print(result.format); // The barcode format (as enum)
+            print(result
+                .formatNote); // If a unknown format was scanned this field contains a note
+
+            Get.toNamed(Routes.CART);
+          }),
       body: GetBuilder<ProductlistController>(
         builder: (controller) {
           return ApiHandleUiWidget(
@@ -64,8 +79,10 @@ class ProductlistView extends GetView<ProductlistController> {
                                 const Divider(thickness: 1, color: Colors.grey),
                                 Text(
                                   controller
-                                      .products[index].product!.designation
-                                      .toString(),
+                                          .products[index].product!.designation
+                                          .toString() +
+                                      controller.products[index].product!.id
+                                          .toString(),
                                   style: Get.textTheme.labelLarge,
                                 ),
                               ],
