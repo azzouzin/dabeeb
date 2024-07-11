@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/data/models/product_model.dart';
@@ -20,6 +22,24 @@ class ProductlistController extends GetxController {
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
   int pageIndicator = 0;
   bool isFinished = false;
+
+  Future getProductByBarCode(String barCode) async {
+    barCode = "1000000000122";
+    await BaseClient.safeApiCall(
+      "${Constants.codeBareProduct}?barcode=$barCode",
+      RequestType.get,
+      headers: {'Authorization': loginController.accessToken},
+      onSuccess: (response) {
+        final ProductModel product = ProductModel.fromJson(response.data);
+        Logger().i(product.toJson());
+        update();
+        Get.toNamed(Routes.PRODUCTDETAILS, arguments: {"product": product});
+      },
+      onError: (p0) {
+        ErrorHandler.handelError(p0);
+      },
+    );
+  }
 
   // getting data from api
   Future getData(String keyword) async {

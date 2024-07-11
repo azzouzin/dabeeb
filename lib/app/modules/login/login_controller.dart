@@ -33,7 +33,7 @@ class LoginController extends GetxController {
       onSuccess: (response) {
         Logger().i(response.headers.map["authorization"]);
         final result = response.headers.map["authorization"]!.first;
-
+        print(result);
         SharedPref.setAuthorizationToken(result);
 
         setToken(result);

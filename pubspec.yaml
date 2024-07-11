@@ -37,6 +37,8 @@ dependencies:
   loadmore: ^2.1.0
   carousel_slider: ^4.2.1
   flutter_animate: ^4.5.0
+  zoom_widget: ^2.0.1
+  lottie: ^3.1.2
 
 dev_dependencies:
   mockito:

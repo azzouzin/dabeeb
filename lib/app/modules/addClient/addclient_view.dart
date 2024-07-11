@@ -6,6 +6,7 @@ import 'package:getx_skeleton/app/components/custom_button.dart';
 import 'package:getx_skeleton/app/data/models/price_category_model.dart';
 import 'package:getx_skeleton/config/theme/light_theme_colors.dart';
 
+import '../../components/custom_text.dart';
 import '../../components/custom_text_form_field.dart';
 import './addclient_controller.dart';
 
@@ -25,6 +26,7 @@ class AddClientView extends GetView<AddClientController> {
           return Padding(
             padding: EdgeInsets.all(16.0.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextFormField(
                   label: "Client Name",
@@ -36,6 +38,14 @@ class AddClientView extends GetView<AddClientController> {
                   controller: addressController,
                 ),
                 16.verticalSpace,
+                CustomText(
+                  txt: "Categorie",
+                  fontSize: 16.sp,
+                  color: LightThemeColors.primaryColor,
+                  overflow: TextOverflow.ellipsis,
+                  fontWeight: FontWeight.bold,
+                ),
+                8.verticalSpace,
                 dropDown(),
                 Spacer(),
                 Row(
@@ -126,7 +136,12 @@ class AddClientView extends GetView<AddClientController> {
             width: 160,
             padding: const EdgeInsets.only(left: 14, right: 14),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(25),
+                bottomRight: Radius.circular(25),
+                bottomLeft: Radius.circular(25),
+              ),
               border: Border.all(color: LightThemeColors.accentColor),
               color: LightThemeColors.primaryColor,
             ),

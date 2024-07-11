@@ -1,5 +1,12 @@
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/components/custom_snackbar.dart';
+import 'package:getx_skeleton/app/data/models/client_model.dart';
 import 'package:getx_skeleton/app/data/models/product_model.dart';
+import 'package:getx_skeleton/app/data/remote/base_client.dart';
+import 'package:getx_skeleton/app/data/remote/error_handler.dart';
+import 'package:getx_skeleton/app/routes/routes.dart';
+import 'package:getx_skeleton/utils/constants.dart';
+import '../../data/local/shared_pref.dart';
 import '../../data/remote/api_call_status.dart';
 
 class CartController extends GetxController {
@@ -7,11 +14,16 @@ class CartController extends GetxController {
   // List<ProductModel> cartProducts = [];
 
   // api call status
-  ApiCallStatus apiCallStatus = ApiCallStatus.holding;
+  ApiCallStatus apiCallStatus = ApiCallStatus.success;
   // List<ProductModel> allProducts = [];
   // RxList<ProductModel> filteredProducts = <ProductModel>[].obs;
   RxList<ProductModel> cartProducts = <ProductModel>[].obs;
   RxDouble totalPrice = 0.0.obs;
+  ClientModel? selctedClient;
+
+  void setClient(ClientModel client) {
+    selctedClient = client;
+  }
 
   void addToCart(ProductModel product) {
     if (!cartProducts.contains(product)) {
@@ -73,5 +85,42 @@ class CartController extends GetxController {
       print(
           "Total Price is = ${totalPrice.value} = ${element.quantity!}* ${element.prixVente2!}");
     }
+  }
+
+  void createOrder() async {
+    apiCallStatus = ApiCallStatus.loading;
+    update();
+    List<Map<String, dynamic>> lines = [];
+
+    for (var element in cartProducts) {
+      lines.add({
+        "lot": {"id": element.id},
+        "prixVente": element.prixVente,
+        "qte": element.qtyController!.text,
+      });
+    }
+    Map<String, dynamic> data = {
+      "client": {"id": selctedClient!.id},
+      "lines": lines,
+    };
+    await BaseClient.safeApiCall(
+      Constants.createOrder,
+      headers: {"Authorization": SharedPref.getAuthorizationToken()!},
+      RequestType.post,
+      data: data,
+      onSuccess: (response) {
+        apiCallStatus = ApiCallStatus.success;
+
+        update();
+        Get.offAllNamed(Routes.HOME);
+        CustomSnackBar.showCustomSnackBar(
+            title: "Success", message: "Order created successfully");
+      },
+      onError: (p0) {
+        ErrorHandler.handelError(p0);
+        apiCallStatus = ApiCallStatus.success;
+        update();
+      },
+    );
   }
 }

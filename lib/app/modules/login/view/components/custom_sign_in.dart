@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'sign_in_form.dart';
 
 Future<Object?> customSigninDialog(BuildContext context,
@@ -54,7 +53,7 @@ Future<Object?> customSigninDialog(BuildContext context,
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
-                              "OR",
+                              "Dabeeb Tech",
                               style: TextStyle(color: Colors.black26),
                             ),
                           ),
@@ -63,11 +62,11 @@ Future<Object?> customSigninDialog(BuildContext context,
                           ),
                         ],
                       ),
-                      Padding(
+                      /*  Padding(
                         padding: EdgeInsets.symmetric(vertical: 20.0),
                         child: Text("Sign up with Email or Phone",
                             style: TextStyle(color: Colors.black54)),
-                      ),
+                      ),*/
                       /*   Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

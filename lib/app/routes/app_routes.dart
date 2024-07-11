@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../modules/home/home_binding.dart';
 import '../modules/home/view/home_view.dart';
+import '../modules/productDetails/view/productdetails_view.dart';
 import 'routes.dart';
 import '../modules/login/login_binding.dart';
 import '../modules/login/view/login_view.dart';
@@ -18,14 +19,12 @@ import '../modules/productlist/productlist_binding.dart';
 import '../modules/productlist/productlist_view.dart';
 import 'routes.dart';
 import '../modules/productdetails/productdetails_binding.dart';
-import '../modules/productdetails/productdetails_view.dart';
-import 'routes.dart';
 
 class AppPages {
   static final routes = [
     GetPage(
       name: Routes.HOME,
-      page: () => const HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(

@@ -4,23 +4,20 @@ import 'package:get/get.dart';
 import 'package:getx_skeleton/app/components/api_handle_ui_widget.dart';
 import 'package:getx_skeleton/app/components/custom_text.dart';
 import 'package:getx_skeleton/app/components/custom_text_form_field.dart';
-import 'package:getx_skeleton/app/data/models/client_model.dart';
-import 'package:getx_skeleton/app/data/remote/api_call_status.dart';
 import 'package:getx_skeleton/app/modules/home/view/components/client_card.dart';
 import 'package:getx_skeleton/app/routes/routes.dart';
 import 'package:getx_skeleton/config/theme/light_theme_colors.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:loadmore/loadmore.dart';
 
 import '../home_controller.dart';
-class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
 
+class HomeView extends GetView<HomeController> {
+  HomeView({Key? key}) : super(key: key);
+  HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10.r),
@@ -30,16 +27,16 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         onPressed: () {
-          Get.toNamed(Routes.PRODUCTLIST);
-          //  Get.toNamed(Routes.ADDCLIENT);
+          Get.toNamed(Routes.ADDCLIENT);
         },
+        child: const Icon(Icons.add),
       ),
       appBar: AppBar(
         leading: Image.asset("assets/images/app_icon.png"),
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: CustomText(
-          txt: "Dabeeb Clients",
+          txt: "Les Clients",
           color: LightThemeColors.primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: 20.sp,
@@ -58,7 +55,7 @@ class HomeView extends GetView<HomeController> {
                           horizontal: 12.w, vertical: 2.0.w),
                       child: CustomTextFormField(
                         controller: controller.searchController,
-                        hintTxt: "Search",
+                        hintTxt: "Recherche",
                         prefixIcon: const Icon(Icons.search),
                         onCompleted: () {
                           controller.searchWordChanged(

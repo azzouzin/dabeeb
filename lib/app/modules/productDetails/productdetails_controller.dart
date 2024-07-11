@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,6 +41,8 @@ class ProductDetailsController extends GetxController {
           image.add(utf8.decode(base64Url.decode(element["image"])));
         }
         Logger().i(image);
+        apiCallStatus = ApiCallStatus.success;
+        update();
       },
       onError: (p0) {
         ErrorHandler.handelError(p0);

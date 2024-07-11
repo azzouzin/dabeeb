@@ -26,26 +26,24 @@ class ErrorHandler {
 
   static handel403Error(ApiException apiException) {
     CustomSnackBar.showCustomErrorSnackBar(
-      title: 'خطا 403',
-      message: "كلمة المرور او اسم المستخدم غير صحيحة",
+      title: 'Error 403',
+      message: "Mot de passe incorrect ou utilisateur inexistant",
     );
   }
 
   static handel404Error(ApiException apiException) {
     String message = apiException.response!.data['message'];
     CustomSnackBar.showCustomErrorSnackBar(
-      title: 'خطا',
-      message: apiException.message ?? 'خطا',
+      title: 'Error 404',
+      message: apiException.message ?? 'Error',
     );
   }
 
   static handel500Error(ApiException apiException) {
-    print(apiException.response!.data['message']);
-    print("Handeling 500 error");
-    String message = apiException.response!.data['message'];
+    String message = apiException.message;
     CustomSnackBar.showCustomErrorSnackBar(
-      title: 'خطا',
-      message: message ?? 'خطا',
+      title: 'Error',
+      message: message ?? 'Error',
     );
   }
 

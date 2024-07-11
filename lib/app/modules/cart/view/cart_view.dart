@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:getx_skeleton/app/components/api_handle_ui_widget.dart';
 import 'package:getx_skeleton/app/modules/cart/cart_controller.dart';
 import 'package:getx_skeleton/config/theme/light_theme_colors.dart';
 
@@ -208,13 +209,15 @@ class CartView extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+        padding: const EdgeInsets.only(left: 30, right: 30),
         child: CustomButton(
           label: ("Buy now"),
           width: 100.w,
           color: LightThemeColors.primaryColor,
           high: 75.h,
-          onPressed: () {},
+          onPressed: () {
+            controller.createOrder();
+          },
         ),
       ),
     );
@@ -224,16 +227,42 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: !controller.isEmptyCart ? cartList() : const EmptyCart(),
+      // floatingActionButton: Padding(
+      //   padding: EdgeInsets.only(bottom: 100.h),
+      //   child: FloatingActionButton(
+      //     backgroundColor: LightThemeColors.primaryColor,
+      //     onPressed: () => Get.toNamed(Routes.PRODUCTDETAILS),
+      //     child: const Icon(Icons.add),
+      //   ),
+      // ),
+      body: GetBuilder<CartController>(builder: (_) {
+        return ApiHandleUiWidget(
+          apiCallStatus: controller.apiCallStatus,
+          successWidget: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: !controller.isEmptyCart ? cartList() : const EmptyCart(),
+              ),
+              bottomBarTitle(),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: CustomButton(
+                  label: ("Ajoute Produit"),
+                  width: 100.w,
+                  color: LightThemeColors.iconColor,
+                  high: 75.h,
+                  onPressed: () {
+                    Get.toNamed(Routes.PRODUCTLIST);
+                  },
+                ),
+              ),
+              bottomBarButton()
+            ],
           ),
-          bottomBarTitle(),
-          bottomBarButton()
-        ],
-      ),
+        );
+      }),
     );
   }
+  
 }

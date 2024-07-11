@@ -75,7 +75,7 @@ class _SignInFormState extends State<SignInForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Email",
+                  "Username",
                   style: TextStyle(color: Colors.black54),
                 ),
                 Padding(
@@ -92,7 +92,7 @@ class _SignInFormState extends State<SignInForm> {
                     decoration: InputDecoration(
                         prefixIcon: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: SvgPicture.asset("assets/icons/email.svg"),
+                      //   child: SvgPicture.asset("assets/icons/email.svg"),
                     )),
                   ),
                 ),
@@ -115,7 +115,7 @@ class _SignInFormState extends State<SignInForm> {
                     decoration: InputDecoration(
                         prefixIcon: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: SvgPicture.asset("assets/icons/password.svg"),
+                      // child: SvgPicture.asset("assets/icons/password.svg"),
                     )),
                   ),
                 ),
@@ -126,7 +126,8 @@ class _SignInFormState extends State<SignInForm> {
                       signIn(context);
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF77D8E),
+                        backgroundColor:
+                            LightThemeColors.primaryColor.withOpacity(0.6),
                         minimumSize: const Size(double.infinity, 56),
                         shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
@@ -136,7 +137,7 @@ class _SignInFormState extends State<SignInForm> {
                                 bottomLeft: Radius.circular(25)))),
                     icon: const Icon(
                       CupertinoIcons.arrow_right,
-                      color: Color(0xFFFE0037),
+                      color: LightThemeColors.accentColor,
                     ),
                     label: const Text(
                       "Sign In",

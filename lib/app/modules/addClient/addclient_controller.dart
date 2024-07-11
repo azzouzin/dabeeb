@@ -29,7 +29,9 @@ class AddClientController extends GetxController {
       },
       onSuccess: (response) {
         for (var element in response.data) {
-          pricesCatorgies.add(PriceModel.fromJson(element));
+          if (element['activated'] == true) {
+            pricesCatorgies.add(PriceModel.fromJson(element));
+          }
         }
         update();
       },
@@ -46,8 +48,11 @@ class AddClientController extends GetxController {
       "Authorization": SharedPref.getAuthorizationToken(),
     };
 
-    ClientModel client =
-        ClientModel(societe: name, adresse: adresse, category: category,);
+    ClientModel client = ClientModel(
+      societe: name,
+      adresse: adresse,
+      category: category,
+    );
     await BaseClient.safeApiCall(
       Constants.addclient,
       RequestType.post,
