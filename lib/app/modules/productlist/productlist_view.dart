@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/components/api_handle_ui_widget.dart';
 import 'package:getx_skeleton/app/components/custom_snackbar.dart';
+import 'package:getx_skeleton/app/modules/cart/cart_controller.dart';
 import 'package:loadmore/loadmore.dart';
 
 import '../../../config/theme/light_theme_colors.dart';
@@ -14,8 +15,8 @@ import '../../routes/routes.dart';
 import './productlist_controller.dart';
 
 class ProductlistView extends GetView<ProductlistController> {
-  const ProductlistView({super.key});
-
+  ProductlistView({super.key});
+  CartController cartController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,36 +31,26 @@ class ProductlistView extends GetView<ProductlistController> {
           fontSize: 20.sp,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.r),
-            topRight: Radius.circular(25.r),
-            bottomRight: Radius.circular(25.r),
-            bottomLeft: Radius.circular(25.r),
+      floatingActionButton: FloatingActionButton.extended(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(25),
+              bottomRight: Radius.circular(25),
+              bottomLeft: Radius.circular(25),
+            ),
           ),
-        ),
-        child: Icon(Icons.qr_code_2_sharp),
-        onPressed: () async {
-          //controller.getData("");
-          var result = await BarcodeScanner.scan(
-            options: const ScanOptions(),
-          );
-          print(result.type); // The result type (barcode, cancelled, failed)
-          print(result.rawContent); // The barcode content
-          print(result.format); // The barcode format (as enum)
-          print(result
-              .formatNote); // If a unknown format was scanned this field contains a note
-
-          if (result.rawContent == "") {
-            CustomSnackBar.showCustomErrorSnackBar(
-                title: "Produit nes pas exist",
-                message: "Veuillez scanner un produit existant");
-          } else {
-            controller.getProductByBarCode(result.rawContent);
-          }
-        },
-      ),
+          isExtended: true,
+          label: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.shopping_cart_outlined),
+              Text(cartController.cartProducts.length.toString() + " Produits"),
+            ],
+          ),
+          onPressed: () {
+            Get.toNamed(Routes.CART);
+          }),
       body: GetBuilder<ProductlistController>(
         builder: (controller) {
           return ApiHandleUiWidget(
@@ -69,14 +60,55 @@ class ProductlistView extends GetView<ProductlistController> {
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 12.w, vertical: 2.0.w),
-                  child: CustomTextFormField(
-                    controller: controller.searchController,
-                    hintTxt: "Recherche",
-                    prefixIcon: const Icon(Icons.search),
-                    onCompleted: () {
-                      controller
-                          .searchWordChanged(controller.searchController.text);
-                    },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: CustomTextFormField(
+                          controller: controller.searchController,
+                          hintTxt: "Recherche",
+                          prefixIcon: const Icon(Icons.search),
+                          onCompleted: () {
+                            controller.searchWordChanged(
+                                controller.searchController.text);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0.h, left: 8.w),
+                        child: ElevatedButton(
+                          style:
+                              ElevatedButton.styleFrom(shape: CircleBorder()),
+                          child: Icon(
+                            Icons.qr_code_2_sharp,
+                            color: Colors.white,
+                            size: 32.h,
+                          ),
+                          onPressed: () async {
+                            //controller.getData("");
+                            var result = await BarcodeScanner.scan(
+                              options: const ScanOptions(),
+                            );
+                            print(result
+                                .type); // The result type (barcode, cancelled, failed)
+                            print(result.rawContent); // The barcode content
+                            print(
+                                result.format); // The barcode format (as enum)
+                            print(result
+                                .formatNote); // If a unknown format was scanned this field contains a note
+
+                            if (result.rawContent == "") {
+                              CustomSnackBar.showCustomErrorSnackBar(
+                                  title: "Produit nes pas exist",
+                                  message:
+                                      "Veuillez scanner un produit existant");
+                            } else {
+                              controller.getProductByBarCode(result.rawContent);
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(

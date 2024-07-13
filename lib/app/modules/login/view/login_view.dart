@@ -2,8 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/login/login_controller.dart';
 import 'package:rive/rive.dart';
 
+import '../../../data/local/shared_pref.dart';
+import '../../../routes/routes.dart';
 import 'components/animated_btn.dart';
 import 'components/custom_sign_in.dart';
 
@@ -23,7 +27,8 @@ class _LoginViewState extends State<LoginView> {
     _btnAnimationController = OneShotAnimation("active", autoplay: false);
     super.initState();
   }
-
+  
+  LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,4 +110,6 @@ class _LoginViewState extends State<LoginView> {
       ],
     ));
   }
+
+
 }

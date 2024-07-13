@@ -49,7 +49,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.PRODUCTLIST,
-      page: () => const ProductlistView(),
+      page: () => ProductlistView(),
       binding: ProductlistBinding(),
     ),
     GetPage(

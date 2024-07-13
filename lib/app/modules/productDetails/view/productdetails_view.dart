@@ -36,7 +36,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
           child: Icon(Icons.arrow_back_ios_new, color: Colors.black),
         ),
         title: Text(
-          "Details de produit",
+          "Détails des produit",
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ),
@@ -166,7 +166,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                     child: Row(
                       children: [
                         Text(
-                          "Quntite",
+                          "Quantité",
                           style: theme.textTheme.bodyMedium?.copyWith(
                               fontSize: 18.sp, fontWeight: FontWeight.bold),
                         ).animate().fade().slideX(
@@ -263,6 +263,24 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                       ],
                     ),
                   ),
+                  product.qteUniteMesure == 1.0
+                      ? Container()
+                      : Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 8.h,
+                          ),
+                          //   padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                  (double.parse(controller.qtyController.text) *
+                                          product.qteUniteMesure!)
+                                      .toString()),
+                              Text("   Piece par colis"),
+                            ],
+                          ),
+                        ),
                   10.verticalSpace,
                   const Spacer(),
                   Padding(
@@ -283,7 +301,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                     child: GetBuilder<ProductDetailsController>(
                         builder: (context) {
                       return CustomButton(
-                        label: "اضف الى السلة",
+                        label: "Ajouter au panier",
                         onPressed: () => controller.onAddToCartPressed(product),
                         width: Get.width * 0.9,
                         high: Get.height * .075,
@@ -307,7 +325,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   Widget normalPrice(ThemeData theme) {
     return Row(
       children: [
-        Text('${product.prixVente} DZD', style: theme.textTheme.titleLarge)
+        Text('${product.prixVente} DA', style: theme.textTheme.titleLarge)
             .animate()
             .fade()
             .slideY(

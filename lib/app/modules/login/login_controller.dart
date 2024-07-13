@@ -31,15 +31,12 @@ class LoginController extends GetxController {
         "password": passwordController.text,
       },
       onSuccess: (response) {
-        Logger().i(response.headers.map["authorization"]);
         final result = response.headers.map["authorization"]!.first;
-        print(result);
+
         SharedPref.setAuthorizationToken(result);
 
         setToken(result);
-        print(SharedPref.getAuthorizationToken());
-        //  appUser = UserModel.fromJson(response.data);
-        // -) indicate success state
+
         apiCallStatus = ApiCallStatus.success;
         update();
         isSeccssful = true;
@@ -55,5 +52,19 @@ class LoginController extends GetxController {
 
   void setToken(token) {
     accessToken = token;
+  }
+
+  @override
+  void onReady() {
+    checkTokenAndRedircet();
+    super.onReady();
+  }
+
+  void checkTokenAndRedircet() async {
+    final token = SharedPref.getAuthorizationToken();
+    if (token != null) {
+      setToken(token);
+      Get.toNamed(Routes.HOME);
+    }
   }
 }

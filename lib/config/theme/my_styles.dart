@@ -34,33 +34,33 @@ class MyStyles {
 
   ///text theme
   static TextTheme getTextTheme({required bool isLightTheme}) => TextTheme(
-        labelLarge: MyFonts.buttonTextStyle.copyWith(
-          fontSize: MyFonts.buttonTextSize,
-        ),
+        labelLarge: MyFonts.buttonTextStyle
+            .copyWith(fontSize: MyFonts.buttonTextSize, fontFamily: "Poppins"),
         bodyLarge: (MyFonts.bodyTextStyle).copyWith(
-          fontWeight: FontWeight.bold,
-          fontSize: MyFonts.bodyLargeSize,
-          color: isLightTheme
-              ? LightThemeColors.bodyTextColor
-              : DarkThemeColors.bodyTextColor,
-        ),
+            fontWeight: FontWeight.bold,
+            fontSize: MyFonts.bodyLargeSize,
+            color: isLightTheme
+                ? LightThemeColors.bodyTextColor
+                : DarkThemeColors.bodyTextColor,
+            fontFamily: "Poppins"),
         bodyMedium: (MyFonts.bodyTextStyle).copyWith(
-          fontSize: MyFonts.bodyMediumSize,
-          color: isLightTheme
-              ? LightThemeColors.bodyTextColor
-              : DarkThemeColors.bodyTextColor,
-        ),
+            fontSize: MyFonts.bodyMediumSize,
+            color: isLightTheme
+                ? LightThemeColors.bodyTextColor
+                : DarkThemeColors.bodyTextColor,
+            fontFamily: "Poppins"),
         displayLarge: (MyFonts.displayTextStyle).copyWith(
-          fontSize: MyFonts.displayLargeSize,
-          fontWeight: FontWeight.bold,
-          color: isLightTheme
-              ? LightThemeColors.displayTextColor
-              : DarkThemeColors.displayTextColor,
-        ),
+            fontSize: MyFonts.displayLargeSize,
+            fontWeight: FontWeight.bold,
+            color: isLightTheme
+                ? LightThemeColors.displayTextColor
+                : DarkThemeColors.displayTextColor,
+            fontFamily: "Poppins"),
         bodySmall: TextStyle(
             color: isLightTheme
                 ? LightThemeColors.bodySmallTextColor
                 : DarkThemeColors.bodySmallTextColor,
+            fontFamily: "Poppins",
             fontSize: MyFonts.bodySmallTextSize),
         displayMedium: (MyFonts.displayTextStyle).copyWith(
             fontSize: MyFonts.displayMediumSize,
@@ -70,6 +70,7 @@ class MyStyles {
                 : DarkThemeColors.displayTextColor),
         displaySmall: (MyFonts.displayTextStyle).copyWith(
           fontSize: MyFonts.displaySmallSize,
+          fontFamily: "Poppins",
           fontWeight: FontWeight.bold,
           color: isLightTheme
               ? LightThemeColors.displayTextColor

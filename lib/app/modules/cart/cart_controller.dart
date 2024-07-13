@@ -96,7 +96,8 @@ class CartController extends GetxController {
       lines.add({
         "lot": {"id": element.id},
         "prixVente": element.prixVente,
-        "qte": element.qtyController!.text,
+        "qte": double.parse(element.qtyController!.text) *
+            (element.qteUniteMesure ?? 1.0),
       });
     }
     Map<String, dynamic> data = {
@@ -114,7 +115,7 @@ class CartController extends GetxController {
         update();
         Get.offAllNamed(Routes.HOME);
         CustomSnackBar.showCustomSnackBar(
-            title: "Success", message: "Order created successfully");
+            title: "Merci", message: "Votre panier est validée");
       },
       onError: (p0) {
         ErrorHandler.handelError(p0);

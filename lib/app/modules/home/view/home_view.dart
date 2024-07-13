@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:getx_skeleton/app/components/api_handle_ui_widget.dart';
 import 'package:getx_skeleton/app/components/custom_text.dart';
 import 'package:getx_skeleton/app/components/custom_text_form_field.dart';
+import 'package:getx_skeleton/app/data/local/shared_pref.dart';
 import 'package:getx_skeleton/app/modules/home/view/components/client_card.dart';
 import 'package:getx_skeleton/app/routes/routes.dart';
 import 'package:getx_skeleton/config/theme/light_theme_colors.dart';
@@ -33,6 +34,19 @@ class HomeView extends GetView<HomeController> {
       ),
       appBar: AppBar(
         leading: Image.asset("assets/images/app_icon.png"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              SharedPref.clear();
+              Get.offAllNamed(Routes.LOGIN);
+            },
+            icon: Icon(
+              Icons.logout,
+              size: 30.h,
+              color: LightThemeColors.primaryColor,
+            ),
+          )
+        ],
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: CustomText(

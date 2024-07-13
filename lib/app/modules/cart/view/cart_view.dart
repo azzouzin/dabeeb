@@ -24,7 +24,7 @@ class CartView extends StatelessWidget {
           onTap: () => Get.back(),
           child: Icon(Icons.arrow_back_ios_new, color: Colors.black)),
       title: Text(
-        "My cart",
+        "Le panier",
         style: Theme.of(context).textTheme.displayLarge,
       ),
     );
@@ -117,9 +117,16 @@ class CartView extends StatelessWidget {
                             keyboardType: TextInputType.number,
                             style: TextStyle(
                               fontWeight: FontWeight.w900,
-                              fontSize: 23,
+                              fontSize: 23.sp,
                             ),
-                            //   decoration: InputDecoration(),
+                            decoration: InputDecoration(
+                              suffixIcon: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("DA"),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         15.horizontalSpace,
@@ -161,9 +168,27 @@ class CartView extends StatelessWidget {
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
+                    product.qteUniteMesure == 1.0
+                        ? Container()
+                        : Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 8.h,
+                            ),
+                            //   padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                    (double.parse(product.qtyController!.text) *
+                                            product.qteUniteMesure!)
+                                        .toString()),
+                                Text("   Piece par colis"),
+                              ],
+                            ),
+                          ),
                   ],
                 ),
               ],
@@ -189,7 +214,7 @@ class CartView extends StatelessWidget {
             () {
               return AnimatedSwitcherWrapper(
                 child: Text(
-                  "\$${controller.totalPrice.value}",
+                  "${controller.totalPrice.value} DA",
                   key: ValueKey<double>(controller.totalPrice.value),
                   style: const TextStyle(
                     fontSize: 25,
@@ -211,7 +236,7 @@ class CartView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 30, right: 30),
         child: CustomButton(
-          label: ("Buy now"),
+          label: ("Validé le panier"),
           width: 100.w,
           color: LightThemeColors.primaryColor,
           high: 75.h,
@@ -248,7 +273,7 @@ class CartView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: CustomButton(
-                  label: ("Ajoute Produit"),
+                  label: ("Ajouter Produit"),
                   width: 100.w,
                   color: LightThemeColors.iconColor,
                   high: 75.h,
@@ -264,5 +289,4 @@ class CartView extends StatelessWidget {
       }),
     );
   }
-  
 }
