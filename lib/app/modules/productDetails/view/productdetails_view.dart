@@ -25,7 +25,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
   final CarouselController _controller = CarouselController();
   @override
   Widget build(BuildContext context) {
-    controller.qtyController.text = product.quantity.toString();
+    // controller.qtyController.text = product.quantity.toString();
 
     final theme = context.theme;
     return Scaffold(
@@ -211,6 +211,9 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                         style: TextStyle(fontSize: 20.sp),
                                         textAlign: TextAlign.center,
                                         keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          controller.qtyController.text = value;
+                                        },
                                         decoration: InputDecoration(
                                           hintText: "Qte",
                                           contentPadding:
@@ -231,7 +234,6 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                                       .primaryColor)),
                                         ),
                                         // textInputType: TextInputType.number,
-                                        onChanged: (val) {},
                                       ),
                                     ),
                                   ),

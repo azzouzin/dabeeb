@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/login/login_controller.dart';
 import 'package:rive/rive.dart';
@@ -27,7 +28,7 @@ class _LoginViewState extends State<LoginView> {
     _btnAnimationController = OneShotAnimation("active", autoplay: false);
     super.initState();
   }
-  
+
   LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
@@ -61,20 +62,21 @@ class _LoginViewState extends State<LoginView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Spacer(),
-                    const SizedBox(
-                      width: 260,
+                    SizedBox(
+                      width: 270.w,
                       child: Column(children: [
                         Text(
-                          "Dabbeeb App Scan and Sell",
+                          "Beebcom App ",
                           style: TextStyle(
-                              fontSize: 60, fontFamily: "Poppins", height: 1.2),
+                              fontSize: 60.sp,
+                              fontFamily: "Poppins",
+                              height: 1.2),
                         ),
                         SizedBox(
-                          height: 16,
+                          height: 16.h,
                         ),
                         Text(
-                          "QR CODE SCANNER QUICKLY SCAN AND SELL YOUR PRODUCTS WITH DABBEEB APP",
-                        )
+                            "QR CODE SCANNER : SCANNEZ RAPIDEMENT ET VENDEZ VOS PRODUITS AVEC L'APPLICATION BEEBCOME")
                       ]),
                     ),
                     const Spacer(
@@ -99,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.0),
                       child: Text(
-                        "Purchase includes access to 30+ products, 240+ premium products, and much more!",
+                        "L'achat comprend l'accès à plus de 250 produits et bien plus encore !",
                         style: TextStyle(),
                       ),
                     )
@@ -110,6 +112,4 @@ class _LoginViewState extends State<LoginView> {
       ],
     ));
   }
-
-
 }

@@ -19,7 +19,7 @@ class AddClientView extends GetView<AddClientController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Client'),
+        title: const Text('Ajouter client'),
       ),
       body: GetBuilder<AddClientController>(
         builder: (controller) {
@@ -29,17 +29,17 @@ class AddClientView extends GetView<AddClientController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextFormField(
-                  label: "Client Name",
+                  label: "Nom client",
                   controller: nameController,
                 ),
                 15.verticalSpace,
                 CustomTextFormField(
-                  label: "Adress",
+                  label: "Adresse client",
                   controller: addressController,
                 ),
                 16.verticalSpace,
                 CustomText(
-                  txt: "Categorie",
+                  txt: "Catégorie",
                   fontSize: 16.sp,
                   color: LightThemeColors.primaryColor,
                   overflow: TextOverflow.ellipsis,
@@ -52,7 +52,7 @@ class AddClientView extends GetView<AddClientController> {
                   children: [
                     Expanded(
                       child: CustomButton(
-                        label: ("Cancel"),
+                        label: ("Annuler"),
                         width: 100.w,
                         color: const Color(0xFFF77D8E),
                         high: 75.h,
@@ -62,7 +62,7 @@ class AddClientView extends GetView<AddClientController> {
                     16.horizontalSpace,
                     Expanded(
                       child: CustomButton(
-                        label: ("OK"),
+                        label: ("valider"),
                         width: 100.w,
                         color: const Color.fromARGB(255, 51, 150, 231),
                         //   color: const Color.fromARGB(255, 51, 150, 231),
@@ -102,7 +102,7 @@ class AddClientView extends GetView<AddClientController> {
               SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  'Select Category ... ',
+                  'Choisir une catégorie ...',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,

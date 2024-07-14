@@ -21,8 +21,8 @@ class CartView extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: InkWell(
-          onTap: () => Get.back(),
-          child: Icon(Icons.arrow_back_ios_new, color: Colors.black)),
+          onTap: () => Get.toNamed(Routes.PRODUCTDETAILS),
+          child: const Icon(Icons.arrow_back_ios_new, color: Colors.black)),
       title: Text(
         "Le panier",
         style: Theme.of(context).textTheme.displayLarge,
@@ -72,7 +72,7 @@ class CartView extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: product.images.isEmpty
-                                  ? Icon(Icons.info_outline_rounded)
+                                  ? const Icon(Icons.info_outline_rounded)
                                   : SizedBox(
                                       width: 75.w,
                                       child: Image.memory(
@@ -119,7 +119,7 @@ class CartView extends StatelessWidget {
                               fontWeight: FontWeight.w900,
                               fontSize: 23.sp,
                             ),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               suffixIcon: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -154,8 +154,10 @@ class CartView extends StatelessWidget {
                                     controller: product.qtyController,
                                     keyboardType: TextInputType.number,
                                     textAlign: TextAlign.center,
-                                    onChanged: (value) => controller.changeQty(
-                                        value, product.id!),
+                                    onEditingComplete: () =>
+                                        controller.changeQty(
+                                            product.qtyController!.text,
+                                            product.id!),
                                   ),
                                 ),
                                 IconButton(
@@ -185,7 +187,7 @@ class CartView extends StatelessWidget {
                                     (double.parse(product.qtyController!.text) *
                                             product.qteUniteMesure!)
                                         .toString()),
-                                Text("   Piece par colis"),
+                                const Text("   Piece par colis"),
                               ],
                             ),
                           ),
@@ -252,41 +254,41 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(context),
-      // floatingActionButton: Padding(
-      //   padding: EdgeInsets.only(bottom: 100.h),
-      //   child: FloatingActionButton(
-      //     backgroundColor: LightThemeColors.primaryColor,
-      //     onPressed: () => Get.toNamed(Routes.PRODUCTDETAILS),
-      //     child: const Icon(Icons.add),
-      //   ),
-      // ),
-      body: GetBuilder<CartController>(builder: (_) {
-        return ApiHandleUiWidget(
-          apiCallStatus: controller.apiCallStatus,
-          successWidget: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: !controller.isEmptyCart ? cartList() : const EmptyCart(),
-              ),
-              bottomBarTitle(),
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30),
-                child: CustomButton(
-                  label: ("Ajouter Produit"),
-                  width: 100.w,
-                  color: LightThemeColors.iconColor,
-                  high: 75.h,
-                  onPressed: () {
-                    Get.toNamed(Routes.PRODUCTLIST);
-                  },
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          //  print("Goint BNAck");
+          // Get.toNamed(Routes.PRODUCTDETAILS);
+        },
+        child: GetBuilder<CartController>(builder: (_) {
+          return ApiHandleUiWidget(
+            apiCallStatus: controller.apiCallStatus,
+            successWidget: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child:
+                      !controller.isEmptyCart ? cartList() : const EmptyCart(),
                 ),
-              ),
-              bottomBarButton()
-            ],
-          ),
-        );
-      }),
+                bottomBarTitle(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: CustomButton(
+                    label: ("Ajouter Produit"),
+                    width: 100.w,
+                    color: LightThemeColors.iconColor,
+                    high: 75.h,
+                    onPressed: () {
+                      Get.toNamed(Routes.PRODUCTLIST);
+                    },
+                  ),
+                ),
+                bottomBarButton()
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

@@ -13,7 +13,7 @@ class EmptyCart extends StatelessWidget {
           ),
         ),
         const Text(
-          "Empty cart",
+          "Panier Vide",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         )
       ],

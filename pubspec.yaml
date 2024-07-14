@@ -20,11 +20,11 @@ dependencies:
 
   firebase_core: ^2.14.0 # to initialize firebase services
   firebase_messaging: ^14.6.4 # fcm services
-  awesome_notifications: ^0.7.4+1 # notifications services (will be used for fcm)
+  #  awesome_notifications: ^0.7.4+1 # notifications services (will be used for fcm)
 
   flutter_launcher_icons: # change app icon
   change_app_package_name: # change package name
-  rename_app: 1.0.0 # rename app
+  # rename_app: 1.0.0 # rename app
 
   flutter_svg: # display svg vectors
 
@@ -39,6 +39,11 @@ dependencies:
   flutter_animate: ^4.5.0
   zoom_widget: ^2.0.1
   lottie: ^3.1.2
+  pdf: ^3.8.4
+  path_provider: ^2.1.3
+  printing: ^5.13.1
+  spelling_number: ^0.0.4
+  easy_localization: ^3.0.7
 
 dev_dependencies:
   mockito:

@@ -34,13 +34,13 @@ Future<Object?> customSigninDialog(BuildContext context,
                   children: [
                     Column(children: [
                       Text(
-                        "Sign In",
+                        "Se Connecter",
                         style: TextStyle(fontSize: 34, fontFamily: "Poppins"),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Text(
-                          "Scan the Code Bar and Create Orders Easly",
+                          "Scannez le code-barres et créez des commandes facilement",
                           textAlign: TextAlign.center,
                         ),
                       ),

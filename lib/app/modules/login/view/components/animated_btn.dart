@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rive/rive.dart';
 
 class AnimatedBtn extends StatelessWidget {
@@ -16,8 +17,8 @@ class AnimatedBtn extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: SizedBox(
-        height: 64,
-        width: 260,
+        height: 64.h,
+        width: 260.w,
         child: Stack(children: [
           RiveAnimation.asset(
             "assets/RiveAssets/button.riv",
@@ -32,7 +33,7 @@ class AnimatedBtn extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text("Start now",
+                  Text("Commencez maintenant",
                       style: TextStyle(fontWeight: FontWeight.w600))
                 ],
               )),

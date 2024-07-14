@@ -42,12 +42,12 @@ class _SignInFormState extends State<SignInForm> {
       isShowConfetti = true;
     });
     bool resp = await controller.login();
-    Future.delayed(Duration(seconds: 0), () {
+    Future.delayed(const Duration(seconds: 0), () {
       if (_formKey.currentState!.validate() && resp) {
         // show success
         check.fire();
 
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 2), () {
           setState(() {
             isShowLoading = false;
           });
@@ -56,7 +56,7 @@ class _SignInFormState extends State<SignInForm> {
         });
       } else {
         error.fire();
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 2), () {
           setState(() {
             isShowLoading = false;
           });
@@ -89,15 +89,15 @@ class _SignInFormState extends State<SignInForm> {
                     },
                     controller: controller.usernameController,
                     onSaved: (email) {},
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
                       //   child: SvgPicture.asset("assets/icons/email.svg"),
                     )),
                   ),
                 ),
                 const Text(
-                  "Password",
+                  "Mot de passe",
                   style: TextStyle(color: Colors.black54),
                 ),
                 Padding(
@@ -112,9 +112,9 @@ class _SignInFormState extends State<SignInForm> {
                     },
                     onSaved: (password) {},
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
                       // child: SvgPicture.asset("assets/icons/password.svg"),
                     )),
                   ),
@@ -140,7 +140,7 @@ class _SignInFormState extends State<SignInForm> {
                       color: LightThemeColors.accentColor,
                     ),
                     label: const Text(
-                      "Sign In",
+                      "Se connecter",
                       style: TextStyle(
                         color: LightThemeColors.scaffoldBackgroundColor,
                       ),
@@ -192,13 +192,13 @@ class CustomPositioned extends StatelessWidget {
     return Positioned.fill(
       child: Column(
         children: [
-          Spacer(),
+          const Spacer(),
           SizedBox(
             height: size,
             width: size,
             child: child,
           ),
-          Spacer(flex: 2),
+          const Spacer(flex: 2),
         ],
       ),
     );

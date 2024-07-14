@@ -7,8 +7,6 @@ import 'app/data/local/shared_pref.dart';
 import 'app/routes/app_routes.dart';
 import 'config/theme/my_theme.dart';
 import 'config/translations/localization_service.dart';
-import 'utils/awesome_notifications_helper.dart';
-import 'utils/fcm_helper.dart';
 
 Future<void> main() async {
   // wait for bindings
@@ -18,10 +16,10 @@ Future<void> main() async {
   await SharedPref.init();
 
   // inti fcm services
-  await FcmHelper.initFcm();
+  // await FcmHelper.initFcm();
 
   // initialize local notifications service
-  await AwesomeNotificationsHelper.init();
+  // await AwesomeNotificationsHelper.init();
 
   runApp(
     ScreenUtilInit(
@@ -34,7 +32,7 @@ Future<void> main() async {
       builder: (context, widget) {
         return GetMaterialApp(
           // todo add your app name
-          title: "GetXSkeleton",
+          title: "BeebCom",
           useInheritedMediaQuery: true,
           debugShowCheckedModeBanner: false,
           builder: (context, widget) {
@@ -45,7 +43,7 @@ Future<void> main() async {
                 // prevent font from scalling (some people use big/small device fonts)
                 // but we want our app font to still the same and dont get affected
                 data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                
+
                 child: widget!,
               ),
             );

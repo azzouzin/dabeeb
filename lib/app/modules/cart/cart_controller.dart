@@ -6,6 +6,7 @@ import 'package:getx_skeleton/app/data/remote/base_client.dart';
 import 'package:getx_skeleton/app/data/remote/error_handler.dart';
 import 'package:getx_skeleton/app/routes/routes.dart';
 import 'package:getx_skeleton/utils/constants.dart';
+import '../../data/local/pdf_print.dart';
 import '../../data/local/shared_pref.dart';
 import '../../data/remote/api_call_status.dart';
 
@@ -27,7 +28,7 @@ class CartController extends GetxController {
 
   void addToCart(ProductModel product) {
     if (!cartProducts.contains(product)) {
-      product.quantity = product.quantity! + 1;
+      product.quantity = product.quantity!;
       cartProducts.add(product);
       calculateTotalPrice();
     } else {
@@ -109,10 +110,15 @@ class CartController extends GetxController {
       headers: {"Authorization": SharedPref.getAuthorizationToken()!},
       RequestType.post,
       data: data,
-      onSuccess: (response) {
+      onSuccess: (response) async {
         apiCallStatus = ApiCallStatus.success;
 
         update();
+        await Facture().generateAndPrintArabicPdf(
+          date: DateTime.now().toString().substring(0, 16),
+          client: selctedClient!,
+          total: totalPrice.value.toString(),
+        );
         Get.offAllNamed(Routes.HOME);
         CustomSnackBar.showCustomSnackBar(
             title: "Merci", message: "Votre panier est validée");
