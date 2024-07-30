@@ -68,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
                         Text(
                           "Beebcom App ",
                           style: TextStyle(
-                              fontSize: 60.sp,
+                              fontSize: 55.sp,
                               fontFamily: "Poppins",
                               height: 1.2),
                         ),

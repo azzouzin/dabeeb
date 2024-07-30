@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/data/models/product_model.dart';
@@ -16,6 +15,7 @@ import 'dart:convert';
 class ProductDetailsController extends GetxController {
   // hold data coming from api
   List<dynamic>? data;
+  String descreption = "No Description";
   TextEditingController qtyController = TextEditingController(text: '1');
   ProductlistController productlistController =
       Get.put(ProductlistController());
@@ -39,7 +39,9 @@ class ProductDetailsController extends GetxController {
       onSuccess: (response) {
         for (var element in response.data) {
           image.add(utf8.decode(base64Url.decode(element["image"])));
+          descreption = element["product"]["description"] ?? "No Description";
         }
+
         Logger().i(image);
         apiCallStatus = ApiCallStatus.success;
         update();
@@ -55,13 +57,17 @@ class ProductDetailsController extends GetxController {
     product.qtyController!.text = qtyController.text;
     product.priceController!.text = product.prixVente.toString();
     product.images = image;
-    cartController.addToCart(product);
+    cartController.cartProducts
+                .firstWhereOrNull((element) => element.id == product.id) ==
+            null
+        ? cartController.addToCart(product)
+        : null;
     Get.offNamed(Routes.CART);
   }
 
   @override
   void onInit() {
     super.onInit();
-    getProductImages(productlistController.product!.id!);
+    getProductImages(productlistController.product!.product!.id!);
   }
 }

@@ -95,8 +95,7 @@ class HomeView extends GetView<HomeController> {
                           itemCount: controller.clients.length,
                           itemBuilder: (context, index) {
                             return ClientCard(
-                              client: controller.clients[index],
-                            );
+                                client: controller.clients[index]);
                           },
                         ),
                       ),

@@ -23,6 +23,7 @@ class ProductModel {
   dynamic barcode;
   dynamic fournisseur;
   dynamic codeAchat;
+  String? description;
   dynamic dateAchat;
   double? qteUniteMesure;
   String? refFournisseur;
@@ -37,6 +38,7 @@ class ProductModel {
       this.qtyController,
       this.images = const [],
       this.priceController,
+      this.description,
       this.prixAchat,
       this.prixVente,
       this.prixVente2,
@@ -78,6 +80,7 @@ class ProductModel {
     qte5 = json["qte5"];
     qte6 = json["qte6"];
     qte7 = json["qte7"];
+    description = json["description"];
     dateExpiration = json["dateExpiration"];
     product =
         json["product"] == null ? null : Product.fromJson(json["product"]);
@@ -86,7 +89,7 @@ class ProductModel {
     fournisseur = json["fournisseur"];
     codeAchat = json["codeAchat"];
     dateAchat = json["dateAchat"];
-    qteUniteMesure = json["qteUniteMesure"];
+    qteUniteMesure = json["qteUniteMesure"] ?? 1.0;
     refFournisseur = json["refFournisseur"];
     quantity = 1;
     qtyController = TextEditingController(text: '1');
@@ -135,6 +138,7 @@ class Product {
   double? qte2;
   double? qte3;
   double? qte4;
+  String? description;
   double? qte5;
   double? qte6;
   double? qte7;
@@ -152,6 +156,7 @@ class Product {
       {this.id,
       this.code,
       this.designation,
+      this.description,
       this.qte,
       this.qte1,
       this.qte2,
@@ -173,6 +178,7 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     code = json["code"];
+    description = json["description"];
     designation = json["designation"];
     qte = json["qte"];
     qte1 = json["qte1"];

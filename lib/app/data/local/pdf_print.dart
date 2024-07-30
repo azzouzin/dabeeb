@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/data/models/client_model.dart';
 import 'package:getx_skeleton/app/data/models/product_model.dart';
 import 'package:getx_skeleton/app/modules/cart/cart_controller.dart';
+import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
@@ -17,10 +19,18 @@ class Facture {
   Future<void> generateAndPrintArabicPdf({
     required String date,
     required String total,
+    required String logo,
+    required String numBon,
+    required String name,
+    required String phone,
+    required String adresse,
     required ClientModel client,
   }) async {
-    final Document pdf = Document();
-    loadImage();
+    final Document pdf = Document(
+      title: numBon.toString(),
+    );
+
+    loadImage(logo);
     var englishfont =
         Font.ttf(await rootBundle.load("assets/Fonts/Poppins-Bold.ttf"));
     //var arabicfont = Font.ttf(await rootBundle.load("assets/fonts/Noto.ttf"));
@@ -34,27 +44,21 @@ class Facture {
         build: (Context context) {
           return [
             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    height: 50,
-                    width: 50,
+                    height: 150,
+                    width: 150,
                     child: image1,
                   ),
-                  header(),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 50,
-                    width: 50,
-                    //  child: Image.asset('assets/icons/logo.png'),
-                  ),
                 ]),
+            header(phone, adresse),
             Container(
               width: 550,
               height: 2,
-              color: PdfColor.fromHex('#000000'),
+              //   color: PdfColor.fromHex('#000000'),
             ),
             Container(height: 5),
             Row(
@@ -63,63 +67,50 @@ class Facture {
                 Expanded(
                   child: Container(
                     height: 140,
-                    padding: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(16),
                     //    height: 150,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
-                      ),
-                    ),
+
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "FACTURE",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            height: 0.5,
-                            //  color: Colors.black,
-                          ),
-                          Text(
-                            'DATE : ${date}',
-                            style: TextStyle(
-                              fontSize: 8,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          Container(height: 5),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Client : ${client.societe}',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Code : $numBon",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Text(
-                                  ' Adresse :  ${client.adresse}',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                              Container(
+                                height: 0.5,
+                                //  color: Colors.black,
+                              ),
+                              Text(
+                                'DATE : ${date}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
                                 ),
-                                Text(
-                                  ' Mobile :  ${client.mobileId}',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              ),
+                            ]),
+                        Container(height: 5),
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Client : ${client.societe}',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ]),
-                        ]),
+                              ),
+                            ]),
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -145,42 +136,40 @@ class Facture {
     var savedPdf = await pdf.save();
     await file.writeAsBytes(savedPdf);
     await Printing.layoutPdf(
-        onLayout: (PdfPageFormat format) async => pdf.save());
+        onLayout: (PdfPageFormat format) async => pdf.save(), name: numBon);
   }
 
-  Center header() {
+  Center header(
+    String phone,
+    String adresse,
+  ) {
     return Center(
       child: Column(
         children: [
           Text(
-            'BeebCom',
+            phone,
             style: TextStyle(
-              fontSize: 13,
+              fontSize: 26,
               fontWeight: FontWeight.bold,
             ),
           ),
           Container(height: 7),
           Text(
-            'Creation des solition est les logiciels d\'exploitation',
+            adresse,
             style: TextStyle(
-              fontSize: 10,
+              fontSize: 26,
               fontWeight: FontWeight.bold,
             ),
           ),
+          Container(height: 7),
           Text(
-            'CAPITAL=25000000 DA - Cité 100 LSP Cité Bouskin 21 SETIF',
+            'Bon de vente',
             style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.normal,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
-            'Tél: 044758815 Fax:044756273 Email:dabeeb@gmail.com',
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
+          Container(height: 7),
         ],
       ),
     );
@@ -190,23 +179,30 @@ class Facture {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: TableHelper.fromTextArray(
-        headerStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-        headerCellDecoration: BoxDecoration(color: PdfColor.fromHex('#8f8f8f')),
+        headerStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        headerCellDecoration: BoxDecoration(
+          color: PdfColor.fromHex('#ffffff'),
+        ),
         headers: <dynamic>[
-          'N°',
-          'Réference',
+          // 'Réference',
           'Désignation',
           'Prix',
           'Quantité',
           'Montent',
         ],
-        cellAlignment: Alignment.center,
-        cellStyle: const TextStyle(fontSize: 8),
+        cellAlignment: Alignment.centerRight,
+        defaultColumnWidth: FractionColumnWidth(3),
+        columnWidths: {
+          0: IntrinsicColumnWidth(flex: 3),
+          1: IntrinsicColumnWidth(flex: 1),
+          2: IntrinsicColumnWidth(flex: 1),
+          3: IntrinsicColumnWidth(flex: 1),
+        },
+        cellStyle: const TextStyle(fontSize: 16),
         data: <List<dynamic>>[
           ...products
               .map((e) => <dynamic>[
-                    products.indexOf(e) + 1,
-                    e.id,
+                    //  e.id,
                     e.product!.designation,
                     numberFromat(e.priceController!.text),
                     e.qtyController!.text,
@@ -215,24 +211,16 @@ class Facture {
                         .toString()),
                   ])
               .toList(),
-          <dynamic>[
-            Expanded(child: Container(height: 220)),
-            Expanded(child: Container()),
-            Expanded(child: Container()),
-            Expanded(child: Container()),
-            Expanded(child: Container()),
-            Expanded(child: Container()),
-            Expanded(child: Container()),
-          ]
         ],
       ),
     );
   }
 
-  Future<bool> loadImage() async {
+  Future<bool> loadImage(logo) async {
+    Logger().e(logo);
     final img = await rootBundle.load('assets/images/app_icon.png');
     final imageBytes = img.buffer.asUint8List();
-    image1 = Image(MemoryImage(imageBytes));
+    image1 = Image(MemoryImage(base64Decode(logo.split(',').last)));
     return true;
   }
 

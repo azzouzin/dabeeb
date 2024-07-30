@@ -8,6 +8,7 @@ import 'package:getx_skeleton/app/modules/login/login_controller.dart';
 import 'package:logger/logger.dart';
 
 import '../../../../utils/constants.dart';
+import '../../components/custom_snackbar.dart';
 import '../../data/remote/api_call_status.dart';
 import '../../data/remote/base_client.dart';
 import '../../routes/routes.dart';
@@ -24,7 +25,7 @@ class ProductlistController extends GetxController {
   bool isFinished = false;
 
   Future getProductByBarCode(String barCode) async {
-    barCode = "1000000000122";
+    // barCode = "00000000139";
     await BaseClient.safeApiCall(
       "${Constants.codeBareProduct}?barcode=$barCode",
       RequestType.get,
@@ -36,7 +37,9 @@ class ProductlistController extends GetxController {
         Get.toNamed(Routes.PRODUCTDETAILS, arguments: {"product": product});
       },
       onError: (p0) {
-        ErrorHandler.handelError(p0);
+        CustomSnackBar.showCustomErrorSnackBar(
+            title: "Produit inexistant",
+            message: "Veuillez scanner un produit existant");
       },
     );
   }
@@ -52,9 +55,14 @@ class ProductlistController extends GetxController {
       headers: {'Authorization': loginController.accessToken},
       onSuccess: (response) {
         for (var element in response.data['content']) {
-          products.add(ProductModel.fromJson(element));
-          Logger().wtf(element);
-          Logger().i(products.last.toJson());
+          products.firstWhereOrNull(
+                      (e) => ProductModel.fromJson(element).id == e.id) !=
+                  null
+              ? null
+              : products.add(ProductModel.fromJson(element));
+        }
+        for (var element in products) {
+          print(element.barcode + element.product!.designation);
         }
         pageIndicator++;
         if (response.data['last'] == true) {
@@ -78,8 +86,9 @@ class ProductlistController extends GetxController {
     getData(keyword);
   }
 
-  void onProductTapped(ProductModel product) {
-    this.product = product;
+  void onProductTapped(ProductModel clickedproduct) {
+    product = clickedproduct;
+
     Get.toNamed(Routes.PRODUCTDETAILS, arguments: {"product": product});
   }
 

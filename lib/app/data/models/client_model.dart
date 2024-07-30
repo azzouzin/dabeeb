@@ -1,4 +1,3 @@
-
 class ClientModel {
   int? id;
   dynamic oldId;
@@ -41,40 +40,80 @@ class ClientModel {
   dynamic sexe;
   dynamic wilaya;
 
-  ClientModel({this.id, this.oldId, this.createdDate, this.modifiedDate, this.createdBy, this.modifiedBy, this.deleted, this.code, this.societe, this.mobileId, this.numRegistre, this.fiscal, this.artImpo, this.tel, this.tel2, this.fax, this.activite, this.type, this.banque, this.adresse, this.email, this.credit, this.creditInitial, this.creditMax, this.nif, this.nis, this.numAssurance, this.active, this.category, this.echaience, this.region, this.activity, this.remise, this.resteCreance, this.livreur, this.mc, this.taux, this.dateNaissance, this.sexe, this.wilaya});
+  ClientModel(
+      {this.id,
+      this.oldId,
+      this.createdDate,
+      this.modifiedDate,
+      this.createdBy,
+      this.modifiedBy,
+      this.deleted,
+      this.code,
+      this.societe,
+      this.mobileId,
+      this.numRegistre,
+      this.fiscal,
+      this.artImpo,
+      this.tel,
+      this.tel2,
+      this.fax,
+      this.activite,
+      this.type,
+      this.banque,
+      this.adresse,
+      this.email,
+      this.credit,
+      this.creditInitial,
+      this.creditMax,
+      this.nif,
+      this.nis,
+      this.numAssurance,
+      this.active,
+      this.category,
+      this.echaience,
+      this.region,
+      this.activity,
+      this.remise,
+      this.resteCreance,
+      this.livreur,
+      this.mc,
+      this.taux,
+      this.dateNaissance,
+      this.sexe,
+      this.wilaya});
 
   ClientModel.fromJson(Map<String, dynamic> json) {
-    if(json["id"] is int) {
+    if (json["id"] is int) {
       id = json["id"];
     }
     oldId = json["oldId"];
-    if(json["createdDate"] is String) {
+    if (json["createdDate"] is String) {
       createdDate = json["createdDate"];
     }
-    if(json["modifiedDate"] is String) {
+    if (json["modifiedDate"] is String) {
       modifiedDate = json["modifiedDate"];
     }
-    if(json["createdBy"] is String) {
+    if (json["createdBy"] is String) {
       createdBy = json["createdBy"];
     }
-    if(json["modifiedBy"] is String) {
+    if (json["modifiedBy"] is String) {
       modifiedBy = json["modifiedBy"];
     }
-    if(json["deleted"] is bool) {
+    if (json["deleted"] is bool) {
       deleted = json["deleted"];
     }
-    if(json["code"] is String) {
+    if (json["code"] is String) {
       code = json["code"];
     }
-    if(json["societe"] is String) {
+    if (json["societe"] is String) {
       societe = json["societe"];
     }
-    if(json["mobileId"] is int) {
+    if (json["mobileId"] is int) {
       mobileId = json["mobileId"];
     }
     numRegistre = json["numRegistre"];
     fiscal = json["fiscal"];
-    if(json["artImpo"] is String) {
+    if (json["artImpo"] is String) {
       artImpo = json["artImpo"];
     }
     tel = json["tel"];
@@ -85,42 +124,42 @@ class ClientModel {
     banque = json["banque"];
     adresse = json["adresse"];
     email = json["email"];
-    if(json["credit"] is int) {
+    if (json["credit"] is int) {
       credit = json["credit"];
     }
-    if(json["creditInitial"] is int) {
+    if (json["creditInitial"] is int) {
       creditInitial = json["creditInitial"];
     }
-    if(json["creditMax"] is int) {
+    if (json["creditMax"] is int) {
       creditMax = json["creditMax"];
     }
     nif = json["nif"];
     nis = json["nis"];
     numAssurance = json["numAssurance"];
-    if(json["active"] is bool) {
+    if (json["active"] is bool) {
       active = json["active"];
     }
-    if(json["category"] is int) {
+    if (json["category"] is int) {
       category = json["category"];
     }
-    if(json["echaience"] is int) {
+    if (json["echaience"] is int) {
       echaience = json["echaience"];
     }
-    if(json["region"] is Map) {
+    if (json["region"] is Map) {
       region = json["region"] == null ? null : Region.fromJson(json["region"]);
     }
     activity = json["activity"];
-    if(json["remise"] is int) {
+    if (json["remise"] is int) {
       remise = json["remise"];
     }
-    if(json["resteCreance"] is int) {
+    if (json["resteCreance"] is int) {
       resteCreance = json["resteCreance"];
     }
     livreur = json["livreur"];
-    if(json["mc"] is bool) {
+    if (json["mc"] is bool) {
       mc = json["mc"];
     }
-    if(json["taux"] is int) {
+    if (json["taux"] is int) {
       taux = json["taux"];
     }
     dateNaissance = json["dateNaissance"];
@@ -160,7 +199,7 @@ class ClientModel {
     _data["active"] = active;
     _data["category"] = category;
     _data["echaience"] = echaience;
-    if(region != null) {
+    if (region != null) {
       _data["region"] = region?.toJson();
     }
     _data["activity"] = activity;
@@ -172,6 +211,7 @@ class ClientModel {
     _data["dateNaissance"] = dateNaissance;
     _data["sexe"] = sexe;
     _data["wilaya"] = wilaya;
+    _data["active"] = true;
     return _data;
   }
 }
@@ -188,32 +228,42 @@ class Region {
   bool? splitBon;
   dynamic livreur;
 
-  Region({this.id, this.oldId, this.createdDate, this.modifiedDate, this.createdBy, this.modifiedBy, this.deleted, this.name, this.splitBon, this.livreur});
+  Region(
+      {this.id,
+      this.oldId,
+      this.createdDate,
+      this.modifiedDate,
+      this.createdBy,
+      this.modifiedBy,
+      this.deleted,
+      this.name,
+      this.splitBon,
+      this.livreur});
 
   Region.fromJson(Map<String, dynamic> json) {
-    if(json["id"] is int) {
+    if (json["id"] is int) {
       id = json["id"];
     }
     oldId = json["oldId"];
-    if(json["createdDate"] is String) {
+    if (json["createdDate"] is String) {
       createdDate = json["createdDate"];
     }
-    if(json["modifiedDate"] is String) {
+    if (json["modifiedDate"] is String) {
       modifiedDate = json["modifiedDate"];
     }
-    if(json["createdBy"] is String) {
+    if (json["createdBy"] is String) {
       createdBy = json["createdBy"];
     }
-    if(json["modifiedBy"] is String) {
+    if (json["modifiedBy"] is String) {
       modifiedBy = json["modifiedBy"];
     }
-    if(json["deleted"] is bool) {
+    if (json["deleted"] is bool) {
       deleted = json["deleted"];
     }
-    if(json["name"] is String) {
+    if (json["name"] is String) {
       name = json["name"];
     }
-    if(json["splitBon"] is bool) {
+    if (json["splitBon"] is bool) {
       splitBon = json["splitBon"];
     }
     livreur = json["livreur"];

@@ -29,7 +29,7 @@ class ClientCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(txt: client.societe ?? ""),
-                CustomText(txt: client.mobileId.toString()),
+                CustomText(txt: client.wilaya.toString()),
                 //CustomText(txt: client.email ?? ""),
                 //  CustomText(txt: client.adresse ?? ""),
               ],

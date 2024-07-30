@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:getx_skeleton/app/components/custom_snackbar.dart';
 import 'package:getx_skeleton/app/data/local/shared_pref.dart';
 import 'package:getx_skeleton/app/data/models/client_model.dart';
 import 'package:getx_skeleton/app/data/remote/base_client.dart';
@@ -64,8 +65,12 @@ class AddClientController extends GetxController {
   }
 
   void addedClientSeccssful(Response response) {
-    final ClientModel myclient = ClientModel.fromJson(response.data);
-    Get.toNamed(Routes.BARCODESCANNER, arguments: {"client": myclient});
+    //  final ClientModel myclient = ClientModel.fromJson(response.data);
+    Get.back();
+    CustomSnackBar.showCustomSnackBar(
+      message: "Client ajoute avec succes",
+      title: "Succes",
+    );
   }
 
   void changeValue(PriceModel value) {

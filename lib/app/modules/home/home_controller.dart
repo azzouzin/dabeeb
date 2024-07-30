@@ -30,7 +30,7 @@ class HomeController extends GetxController {
     // update();
     Logger().wtf("$keyword $page");
     await BaseClient.safeApiCall(
-        "${Constants.clients}/?keyword=$keyword&page=$page&size=15&sort=id,asc&idRegion=0&idLivreur=0&credit=0&echaience=false&idActivity=0",
+        "${Constants.clients}/?keyword=$keyword&page=$page&size=15&sort=id,asc&idRegion=0&idLivreur=0&credit=0&echaience=false&idActivity=0&active=OUI",
         RequestType.get,
         headers: {
           'Authorization': loginController.accessToken

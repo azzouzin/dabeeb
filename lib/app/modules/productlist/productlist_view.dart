@@ -32,7 +32,7 @@ class ProductlistView extends GetView<ProductlistController> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(25),
@@ -89,17 +89,12 @@ class ProductlistView extends GetView<ProductlistController> {
                             var result = await BarcodeScanner.scan(
                               options: const ScanOptions(),
                             );
-                            print(result
-                                .type); // The result type (barcode, cancelled, failed)
+
                             print(result.rawContent); // The barcode content
-                            print(
-                                result.format); // The barcode format (as enum)
-                            print(result
-                                .formatNote); // If a unknown format was scanned this field contains a note
 
                             if (result.rawContent == "") {
                               CustomSnackBar.showCustomErrorSnackBar(
-                                  title: "Produit nes pas exist",
+                                  title: "Produit inexistant",
                                   message:
                                       "Veuillez scanner un produit existant");
                             } else {
@@ -143,17 +138,31 @@ class ProductlistView extends GetView<ProductlistController> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
-                                      child: Text(
-                                        controller.products[index].product!
-                                                .designation
-                                                .toString() +
+                                      flex: 3,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            controller.products[index].product!
+                                                    .code
+                                                    .toString() +
+                                                "\n" +
+                                                controller.products[index]
+                                                    .product!.designation
+                                                    .toString(),
+                                            style: Get.textTheme.labelLarge,
+                                          ),
+                                          Text(
                                             controller
-                                                .products[index].product!.id
+                                                .products[index].refFournisseur
                                                 .toString(),
-                                        style: Get.textTheme.labelLarge,
+                                            style: Get.textTheme.titleMedium,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    16.horizontalSpace,
+                                    Expanded(child: Container()),
                                     Container(
                                       padding: EdgeInsets.all(16.w),
                                       decoration: BoxDecoration(

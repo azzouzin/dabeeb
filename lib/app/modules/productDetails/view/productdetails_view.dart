@@ -142,7 +142,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                                 curve: Curves.easeInSine,
                               ),
                         ),
-                        Text(product.product!.code ?? "",
+                        Text(product.refFournisseur ?? "",
                                 style: theme.textTheme.bodyLarge!
                                     .copyWith(fontWeight: FontWeight.w300))
                             .animate()
@@ -152,6 +152,16 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                               begin: -1,
                               curve: Curves.easeInSine,
                             ),
+                        // Text(product.code ?? "",
+                        //         style: theme.textTheme.bodyLarge!
+                        //             .copyWith(fontWeight: FontWeight.w300))
+                        //     .animate()
+                        //     .fade()
+                        //     .slideX(
+                        //       duration: const Duration(milliseconds: 300),
+                        //       begin: -1,
+                        //       curve: Curves.easeInSine,
+                        //     ),
                       ],
                     ),
                   ),
@@ -275,11 +285,8 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                           //   padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              Text(
-                                  (double.parse(controller.qtyController.text) *
-                                          product.qteUniteMesure!)
-                                      .toString()),
-                              Text("   Piece par colis"),
+                              Text(" PC (${product.qteUniteMesure}p Pc/colie)" +
+                                  "${(double.parse(controller.qtyController.text) * (product.qteUniteMesure ?? 1)).toString()}"),
                             ],
                           ),
                         ),
@@ -287,7 +294,7 @@ class ProductDetailsView extends GetView<ProductDetailsController> {
                   const Spacer(),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: Text(product.product!.designation.toString(),
+                    child: Text(controller.descreption ?? "",
                             style: theme.textTheme.bodyLarge!
                                 .copyWith(fontWeight: FontWeight.w300))
                         .animate()

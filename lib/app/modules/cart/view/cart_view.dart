@@ -11,6 +11,7 @@ import 'package:getx_skeleton/config/theme/light_theme_colors.dart';
 import '../../../components/animation_switcher_wrapper.dart';
 import '../../../components/custom_button.dart';
 import '../../../routes/routes.dart';
+import 'componants/cart_product.dart';
 import 'componants/empty_cart.dart';
 
 class CartView extends StatelessWidget {
@@ -21,183 +22,56 @@ class CartView extends StatelessWidget {
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: InkWell(
-          onTap: () => Get.toNamed(Routes.PRODUCTDETAILS),
+          onTap: () => Get.toNamed(Routes.PRODUCTLIST),
           child: const Icon(Icons.arrow_back_ios_new, color: Colors.black)),
       title: Text(
         "Le panier",
         style: Theme.of(context).textTheme.displayLarge,
       ),
+      actions: [
+        Padding(
+          padding: EdgeInsets.only(right: 8.w),
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+              ),
+              onPressed: () {
+                Get.offAllNamed(Routes.HOME);
+              },
+              child: const Text(
+                "Annulé",
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.w),
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(),
+              onPressed: () {
+                controller.createOrder();
+              },
+              child: const Text(
+                "validée",
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+      ],
     );
   }
 
   Widget cartList() {
     return SingleChildScrollView(
-      child: Column(
-        children: controller.cartProducts.map((product) {
-          return Container(
-            width: double.infinity,
-            margin: EdgeInsets.all(8.w),
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: Colors.grey[200]?.withOpacity(0.6),
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              alignment: WrapAlignment.spaceEvenly,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () => Get.toNamed(
-                        Routes.PRODUCTDETAILS,
-                        arguments: {
-                          "product": product,
-                          "NonEditableProduct": true
-                        },
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: LightThemeColors.accentColor,
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(20.r)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: product.images.isEmpty
-                                  ? const Icon(Icons.info_outline_rounded)
-                                  : SizedBox(
-                                      width: 75.w,
-                                      child: Image.memory(
-                                        base64Decode(
-                                          product.images.first.split(',').last,
-                                        ),
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    8.horizontalSpace,
-                    Expanded(
-                      child: Text(
-                        product.product!.designation ?? "Desgniation",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () => controller.removeProduct(product),
-                        child:
-                            Icon(Icons.delete, color: Colors.red, size: 20.sp)),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: product.priceController,
-                            onEditingComplete: () =>
-                                controller.calculateTotalPrice(),
-                            keyboardType: TextInputType.number,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 23.sp,
-                            ),
-                            decoration: const InputDecoration(
-                              suffixIcon: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("DA"),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        15.horizontalSpace,
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  splashRadius: 10.0,
-                                  onPressed: () =>
-                                      controller.decreaseItemQuantity(product),
-                                  icon: const Icon(
-                                    Icons.remove,
-                                    color: Color(0xFFEC6813),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    controller: product.qtyController,
-                                    keyboardType: TextInputType.number,
-                                    textAlign: TextAlign.center,
-                                    onEditingComplete: () =>
-                                        controller.changeQty(
-                                            product.qtyController!.text,
-                                            product.id!),
-                                  ),
-                                ),
-                                IconButton(
-                                  splashRadius: 10.0,
-                                  onPressed: () =>
-                                      controller.increaseItemQuantity(product),
-                                  icon: const Icon(Icons.add,
-                                      color: Color(0xFFEC6813)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    product.qteUniteMesure == 1.0
-                        ? Container()
-                        : Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.w,
-                              vertical: 8.h,
-                            ),
-                            //   padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                    (double.parse(product.qtyController!.text) *
-                                            product.qteUniteMesure!)
-                                        .toString()),
-                                const Text("   Piece par colis"),
-                              ],
-                            ),
-                          ),
-                  ],
-                ),
-              ],
-            ),
+      child: Column(children: [
+        ...controller.cartProducts.map((product) {
+          return CartProductCard(
+            controller: controller,
+            product: product,
           );
         }).toList(),
-      ),
+        SizedBox(
+          height: 100.h,
+        )
+      ]),
     );
   }
 
@@ -238,7 +112,7 @@ class CartView extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 30, right: 30),
         child: CustomButton(
-          label: ("Validé le panier"),
+          label: ("Validée le panier"),
           width: 100.w,
           color: LightThemeColors.primaryColor,
           high: 75.h,
@@ -253,6 +127,13 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {
+      //     controller.getLogo();
+      //   },
+      //   label: const Text("Ajouter Produit"),
+      //   icon: const Icon(Icons.add),
+      // ),
       appBar: _appBar(context),
       body: PopScope(
         canPop: false,
@@ -267,8 +148,12 @@ class CartView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child:
-                      !controller.isEmptyCart ? cartList() : const EmptyCart(),
+                  child: !controller.isEmptyCart
+                      ? cartList()
+                      : Image(
+                          image: MemoryImage(
+                              base64Decode(controller.logo.split(',').last))),
+                  //const EmptyCart(),
                 ),
                 bottomBarTitle(),
                 Padding(
@@ -283,7 +168,7 @@ class CartView extends StatelessWidget {
                     },
                   ),
                 ),
-                bottomBarButton()
+                //  bottomBarButton()
               ],
             ),
           );
