@@ -67,92 +67,99 @@ class _SignInFormState extends State<SignInForm> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        AutofillGroup(
-          child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Username",
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 16),
-                    child: TextFormField(
-                      autofillHints: [AutofillHints.username],
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "";
-                        }
-                        return null;
-                      },
-                      controller: controller.usernameController,
-                      onSaved: (email) {},
-                      decoration: const InputDecoration(
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+        Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Username",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 16),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "";
+                      }
+                      return null;
+                    },
+                    controller: controller.usernameController,
+                    onSaved: (email) {},
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black12),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 2,
                         ),
                       ),
                     ),
                   ),
-                  const Text(
-                    "Mot de passe",
-                    style: TextStyle(color: Colors.black54),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 16),
-                    child: TextFormField(
-                      autofillHints: [AutofillHints.password],
-                      controller: controller.passwordController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "";
-                        }
-                        return null;
-                      },
-                      onSaved: (password) {},
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                          prefixIcon: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        // child: SvgPicture.asset("assets/icons/password.svg"),
-                      )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 24),
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        TextInput.finishAutofillContext();
-
-                        signIn(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              LightThemeColors.primaryColor.withOpacity(0.6),
-                          minimumSize: const Size(double.infinity, 56),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(25),
-                                  bottomRight: Radius.circular(25),
-                                  bottomLeft: Radius.circular(25)))),
-                      icon: const Icon(
-                        CupertinoIcons.arrow_right,
-                        color: LightThemeColors.accentColor,
+                ),
+                const Text(
+                  "Mot de passe",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 16),
+                  child: TextFormField(
+                    controller: controller.passwordController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "";
+                      }
+                      return null;
+                    },
+                    onSaved: (password) {},
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black12),
                       ),
-                      label: const Text(
-                        "Se connecter",
-                        style: TextStyle(
-                          color: LightThemeColors.scaffoldBackgroundColor,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 2,
                         ),
                       ),
                     ),
-                  )
-                ],
-              )),
-        ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 24),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      signIn(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: LightThemeColors.primaryColor,
+                        minimumSize: const Size(double.infinity, 56),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(25),
+                                bottomRight: Radius.circular(25),
+                                bottomLeft: Radius.circular(25)))),
+                    icon: const Icon(
+                      CupertinoIcons.arrow_right,
+                      color: LightThemeColors.accentColor,
+                    ),
+                    label: const Text(
+                      "Se connecter",
+                      style: TextStyle(
+                        color: LightThemeColors.scaffoldBackgroundColor,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )),
         isShowLoading
             ? CustomPositioned(
                 child: RiveAnimation.asset(

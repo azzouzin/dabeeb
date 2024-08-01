@@ -1,5 +1,5 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
-import 'package:barcode_scan2/model/model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -25,7 +25,7 @@ class ProductlistView extends GetView<ProductlistController> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: CustomText(
-          txt: "Les lots",
+          txt: "Produits",
           color: LightThemeColors.primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: 20.sp,
@@ -45,7 +45,7 @@ class ProductlistView extends GetView<ProductlistController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.shopping_cart_outlined),
-              Text(cartController.cartProducts.length.toString() + " Produits"),
+              Text("${cartController.cartProducts.length} Produits"),
             ],
           ),
           onPressed: () {
@@ -67,7 +67,14 @@ class ProductlistView extends GetView<ProductlistController> {
                         child: CustomTextFormField(
                           controller: controller.searchController,
                           hintTxt: "Recherche",
-                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.cancel),
+                            onPressed: () => controller.clearSearch(),
+                          ),
+                          onChange: (s) {
+                            controller.searchWordChanged(
+                                controller.searchController.text);
+                          },
                           onCompleted: () {
                             controller.searchWordChanged(
                                 controller.searchController.text);
@@ -144,36 +151,34 @@ class ProductlistView extends GetView<ProductlistController> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            controller.products[index].product!
-                                                    .code
-                                                    .toString() +
-                                                "\n" +
-                                                controller.products[index]
-                                                    .product!.designation
-                                                    .toString(),
+                                            "${controller.products[index].product!.code}\n${controller.products[index].product!.designation}",
                                             style: Get.textTheme.labelLarge,
-                                          ),
-                                          Text(
-                                            controller
-                                                .products[index].refFournisseur
-                                                .toString(),
-                                            style: Get.textTheme.titleMedium,
                                           ),
                                         ],
                                       ),
                                     ),
                                     Expanded(child: Container()),
-                                    Container(
-                                      padding: EdgeInsets.all(16.w),
-                                      decoration: BoxDecoration(
-                                          color: Get.theme.primaryColor
-                                              .withOpacity(0.6),
-                                          shape: BoxShape.circle),
-                                      child: Text(
-                                        controller.products[index].product!.qte
-                                            .toString(),
-                                        style: Get.textTheme.labelLarge,
-                                      ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          controller.products[index].prixVente
+                                                  .toString() +
+                                              " DA",
+                                          style: Get.textTheme.labelLarge!
+                                              .copyWith(color: Colors.red),
+                                        ),
+                                        Text(
+                                          controller
+                                              .products[index].product!.qte
+                                              .toString(),
+                                          style: Get.textTheme.labelLarge!
+                                              .copyWith(
+                                                  color:
+                                                      Get.theme.primaryColor),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

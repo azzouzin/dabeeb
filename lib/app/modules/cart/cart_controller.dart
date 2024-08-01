@@ -37,20 +37,11 @@ class CartController extends GetxController {
     if (!cartProducts.contains(product)) {
       product.quantity = product.quantity!;
       cartProducts.add(product);
-      calculateTotalPrice();
     } else {
-      cartProducts.where((element) => element.id == product.id).first.quantity =
-          product.quantity;
-      cartProducts
-          .where((element) => element.id == product.id)
-          .first
-          .qtyController = product.qtyController;
-      cartProducts
-          .where((element) => element.id == product.id)
-          .first
-          .priceController = product.priceController;
-      calculateTotalPrice();
+      cartProducts.removeWhere((element) => element.id == product.id);
+      cartProducts.add(product);
     }
+    calculateTotalPrice();
   }
 
   void removeProduct(ProductModel product) {

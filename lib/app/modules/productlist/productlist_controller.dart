@@ -79,11 +79,21 @@ class ProductlistController extends GetxController {
     update();
   }
 
-  void searchWordChanged(String keyword) {
+  void clearSearch() {
+    searchController.clear();
     pageIndicator = 0;
     isFinished = false;
     products.clear();
-    getData(keyword);
+    getData("");
+  }
+
+  void searchWordChanged(String keyword) {
+    if (searchController.text.length % 3 == 0) {
+      pageIndicator = 0;
+      isFinished = false;
+      products.clear();
+      getData(keyword);
+    }
   }
 
   void onProductTapped(ProductModel clickedproduct) {

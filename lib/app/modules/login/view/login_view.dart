@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/login/login_controller.dart';
 import 'package:rive/rive.dart';
 
-import '../../../data/local/shared_pref.dart';
-import '../../../routes/routes.dart';
 import 'components/animated_btn.dart';
 import 'components/custom_sign_in.dart';
 
@@ -66,7 +64,7 @@ class _LoginViewState extends State<LoginView> {
                       width: 270.w,
                       child: Column(children: [
                         Text(
-                          "Beebcom App ",
+                          "Beebcom App",
                           style: TextStyle(
                               fontSize: 55.sp,
                               fontFamily: "Poppins",
@@ -76,12 +74,10 @@ class _LoginViewState extends State<LoginView> {
                           height: 16.h,
                         ),
                         Text(
-                            "QR CODE SCANNER : SCANNEZ RAPIDEMENT ET VENDEZ VOS PRODUITS AVEC L'APPLICATION BEEBCOME")
+                            "QR CODE SCANNER : SCANNEZ RAPIDEMENT ET VENDEZ VOS PRODUITS AVEC L'APPLICATION Beebcom")
                       ]),
                     ),
-                    const Spacer(
-                      flex: 2,
-                    ),
+                    const Spacer(flex: 4),
                     AnimatedBtn(
                       btnAnimationController: _btnAnimationController,
                       press: () {
@@ -101,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 24.0),
                       child: Text(
-                        "L'achat comprend l'accès à plus de 250 produits et bien plus encore !",
+                        "Dabeebtech est votre partenaire de gestion",
                         style: TextStyle(),
                       ),
                     )

@@ -54,7 +54,7 @@ class Facture {
                     child: image1,
                   ),
                 ]),
-            header(phone, adresse),
+            header(phone, adresse, name),
             Container(
               width: 550,
               height: 2,
@@ -64,58 +64,52 @@ class Facture {
             Row(
               children: [
                 Container(width: 5),
-                Expanded(
-                  child: Container(
-                    height: 140,
-                    padding: const EdgeInsets.all(16),
-                    //    height: 150,
+                Container(
+                  width: 200,
+                  padding: const EdgeInsets.all(16),
+                  //    height: 150,
 
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Code : $numBon",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Code : $numBon",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Container(
-                                height: 0.5,
-                                //  color: Colors.black,
+                            ),
+                            Container(width: 25),
+                            Text(
+                              'DATE : ${date}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.normal,
                               ),
-                              Text(
-                                'DATE : ${date}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                            ),
+                          ]),
+                      Container(height: 5),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Client : ${client.societe}',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ]),
-                        Container(height: 5),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Client : ${client.societe}',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ]),
-                      ],
-                    ),
+                            ),
+                          ]),
+                    ],
                   ),
                 )
               ],
             ),
-            SizedBox(height: 10),
             productTable(cartController.cartProducts),
             SizedBox(height: 10),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -142,10 +136,19 @@ class Facture {
   Center header(
     String phone,
     String adresse,
+    String name,
   ) {
     return Center(
       child: Column(
         children: [
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(height: 7),
           Text(
             phone,
             style: TextStyle(
@@ -179,6 +182,9 @@ class Facture {
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
       child: TableHelper.fromTextArray(
+        border: TableBorder.symmetric(
+            inside: BorderSide.none,
+            outside: BorderSide(width: 1, color: PdfColor.fromHex('#000000'))),
         headerStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         headerCellDecoration: BoxDecoration(
           color: PdfColor.fromHex('#ffffff'),
@@ -190,8 +196,8 @@ class Facture {
           'Quantité',
           'Montent',
         ],
-        cellAlignment: Alignment.centerRight,
-        defaultColumnWidth: FractionColumnWidth(3),
+        cellAlignment: Alignment.center,
+        defaultColumnWidth: const FractionColumnWidth(3),
         columnWidths: {
           0: IntrinsicColumnWidth(flex: 3),
           1: IntrinsicColumnWidth(flex: 1),
@@ -230,4 +236,17 @@ class Facture {
         .toString()
         .replaceAll(',', ' ');
   }
+
+  // String numberFromat(dynamic number) {
+  //   return NumberFormat('#,###.##')
+  //           .format(double.parse(number))
+  //           .toString()
+  //           .replaceAll(',', ' ')
+  //           .contains(".")
+  //       ? NumberFormat('#,###.##')
+  //           .format(double.parse(number))
+  //           .toString()
+  //           .replaceAll(',', ' ')
+  //       : "${NumberFormat('#,###.##').format(double.parse(number)).toString().replaceAll(',', ' ')} .00";
+  // }
 }

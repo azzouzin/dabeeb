@@ -56,7 +56,9 @@ class AddClientView extends GetView<AddClientController> {
                         width: 100.w,
                         color: const Color(0xFFF77D8E),
                         high: 75.h,
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.back();
+                        },
                       ),
                     ),
                     16.horizontalSpace,
@@ -94,7 +96,7 @@ class AddClientView extends GetView<AddClientController> {
           isExpanded: true,
           hint: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.list,
                 size: 16,
                 color: LightThemeColors.accentColor,
@@ -136,7 +138,7 @@ class AddClientView extends GetView<AddClientController> {
             width: 160,
             padding: const EdgeInsets.only(left: 14, right: 14),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(25),
                 bottomRight: Radius.circular(25),

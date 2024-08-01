@@ -159,8 +159,8 @@ class CartProductCard extends StatelessWidget {
                         vertical: 8.h,
                       ),
                       //   padding: const EdgeInsets.all(8.0),
-                      child: Text(" PC (${product.qteUniteMesure}p Pc/colie)" +
-                          "${(double.parse(product.qtyController!.text) * (product.qteUniteMesure ?? 1)).toString()}"),
+                      child: Text(
+                          "${double.parse(product.qtyController!.text) * (product.qteUniteMesure ?? 1)} Pc (${product.qteUniteMesure}Pc/colie)"),
                     ),
             ],
           ),

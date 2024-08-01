@@ -57,11 +57,8 @@ class ProductDetailsController extends GetxController {
     product.qtyController!.text = qtyController.text;
     product.priceController!.text = product.prixVente.toString();
     product.images = image;
-    cartController.cartProducts
-                .firstWhereOrNull((element) => element.id == product.id) ==
-            null
-        ? cartController.addToCart(product)
-        : null;
+    cartController.addToCart(product);
+
     Get.offNamed(Routes.CART);
   }
 

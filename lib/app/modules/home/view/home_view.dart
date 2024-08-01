@@ -50,7 +50,7 @@ class HomeView extends GetView<HomeController> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: CustomText(
-          txt: "Les Clients",
+          txt: "Clients",
           color: LightThemeColors.primaryColor,
           fontWeight: FontWeight.bold,
           fontSize: 20.sp,
