@@ -122,9 +122,8 @@ class ProductlistView extends GetView<ProductlistController> {
                     },
                     isFinish: controller.isFinished,
                     onLoadMore: () async {
-                      controller.getData(
-                        controller.searchController.text,
-                      );
+                      controller.getData(controller.searchController.text,
+                          controller.clientType);
                       return true;
                     },
                     child: ListView.builder(
@@ -170,8 +169,7 @@ class ProductlistView extends GetView<ProductlistController> {
                                               .copyWith(color: Colors.red),
                                         ),
                                         Text(
-                                          controller
-                                              .products[index].product!.qte
+                                          controller.products[index].qte
                                               .toString(),
                                           style: Get.textTheme.labelLarge!
                                               .copyWith(

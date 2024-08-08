@@ -71,9 +71,15 @@ class HomeView extends GetView<HomeController> {
                         controller: controller.searchController,
                         hintTxt: "Recherche",
                         prefixIcon: const Icon(Icons.search),
-                        onCompleted: () {
-                          controller.searchWordChanged(
-                              controller.searchController.text);
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.cancel),
+                          onPressed: () => controller.clearSearch(),
+                        ),
+                        onChange: (value) {
+                          value.length % 4 == 0
+                              ? controller.searchWordChanged(
+                                  controller.searchController.text)
+                              : null;
                         },
                       ),
                     ),

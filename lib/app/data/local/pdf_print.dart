@@ -65,7 +65,7 @@ class Facture {
               children: [
                 Container(width: 5),
                 Container(
-                  width: 200,
+                  //   width: 250,
                   padding: const EdgeInsets.all(16),
                   //    height: 150,
 
@@ -94,17 +94,18 @@ class Facture {
                           ]),
                       Container(height: 5),
                       Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Client : ${client.societe}',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Client : ${client.societe}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ]),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 )

@@ -40,11 +40,13 @@ class ErrorHandler {
   }
 
   static handel500Error(ApiException apiException) {
+    apiException.message = apiException.message.contains("Failed host lookup")
+        ? "Verifié votre connexion"
+        : apiException.message;
     String message = apiException.message;
+
     CustomSnackBar.showCustomErrorSnackBar(
-      title: 'Error',
-      message: message ?? 'Error',
-    );
+        title: "Impossible d'accéder au serveur", message: message ?? 'Error');
   }
 
 /*

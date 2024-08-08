@@ -12,13 +12,16 @@ import '../../components/custom_snackbar.dart';
 import '../../data/remote/api_call_status.dart';
 import '../../data/remote/base_client.dart';
 import '../../routes/routes.dart';
+import '../cart/cart_controller.dart';
 
 class ProductlistController extends GetxController {
   // hold data coming from api
   List<ProductModel> products = [];
   ProductModel? product;
   LoginController loginController = Get.put(LoginController());
+  CartController cartController = Get.put(CartController());
   TextEditingController searchController = TextEditingController();
+  String clientType = "";
   // api call status
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
   int pageIndicator = 0;
@@ -31,7 +34,8 @@ class ProductlistController extends GetxController {
       RequestType.get,
       headers: {'Authorization': loginController.accessToken},
       onSuccess: (response) {
-        final ProductModel product = ProductModel.fromJson(response.data);
+        final ProductModel product =
+            ProductModel.fromJson(response.data, clientType);
         Logger().i(product.toJson());
         update();
         Get.toNamed(Routes.PRODUCTDETAILS, arguments: {"product": product});
@@ -45,21 +49,21 @@ class ProductlistController extends GetxController {
   }
 
   // getting data from api
-  Future getData(String keyword) async {
+  Future getData(String keyword, String type) async {
     // apiCallStatus = ApiCallStatus.loading;
     // update();
     Logger().wtf("$keyword $pageIndicator");
     await BaseClient.safeApiCall(
-      "${Constants.products}?keyword=$keyword&page=$pageIndicator&size=10&sort=product.designation,dateExpiration,asc&idProduct=0&deleted=false&hasQte=0",
+      "${Constants.products}?keyword=$keyword&page=$pageIndicator&size=10&sort=product.designation,dateExpiration,asc&idProduct=0&deleted=false&hasQte=qte>0",
       RequestType.get,
       headers: {'Authorization': loginController.accessToken},
       onSuccess: (response) {
         for (var element in response.data['content']) {
-          products.firstWhereOrNull(
-                      (e) => ProductModel.fromJson(element).id == e.id) !=
+          products.firstWhereOrNull((e) =>
+                      ProductModel.fromJson(element, clientType).id == e.id) !=
                   null
               ? null
-              : products.add(ProductModel.fromJson(element));
+              : products.add(ProductModel.fromJson(element, clientType));
         }
         for (var element in products) {
           print(element.barcode + element.product!.designation);
@@ -84,7 +88,7 @@ class ProductlistController extends GetxController {
     pageIndicator = 0;
     isFinished = false;
     products.clear();
-    getData("");
+    getData("", clientType);
   }
 
   void searchWordChanged(String keyword) {
@@ -92,7 +96,7 @@ class ProductlistController extends GetxController {
       pageIndicator = 0;
       isFinished = false;
       products.clear();
-      getData(keyword);
+      getData(keyword, clientType);
     }
   }
 
@@ -104,7 +108,11 @@ class ProductlistController extends GetxController {
 
   @override
   void onInit() {
-    getData("");
+    clientType = cartController.selctedClient!.category!.toString();
+    clientType = clientType == "1" ? "" : clientType;
+    print(clientType);
+    getData("", clientType);
+
     super.onInit();
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/data/models/client_model.dart';
 import 'package:getx_skeleton/app/data/remote/base_client.dart';
-import 'package:getx_skeleton/app/modules/cart/view/cart_view.dart';
 import 'package:getx_skeleton/app/modules/login/login_controller.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:logger/logger.dart';
@@ -12,6 +11,7 @@ import '../../data/remote/api_call_status.dart';
 import '../../data/remote/error_handler.dart';
 
 class HomeController extends GetxController {
+  bool isInternetAvailabale = true;
   LoginController loginController = Get.put(LoginController());
   int pageIndicator = 0;
   TextEditingController searchController = TextEditingController();
@@ -29,23 +29,26 @@ class HomeController extends GetxController {
     // apiCallStatus = ApiCallStatus.loading;
     // update();
     Logger().wtf("$keyword $page");
-    await BaseClient.safeApiCall(
-        "${Constants.clients}/?keyword=$keyword&page=$page&size=15&sort=id,asc&idRegion=0&idLivreur=0&credit=0&echaience=false&idActivity=0&active=OUI",
-        RequestType.get,
-        headers: {
-          'Authorization': loginController.accessToken
-        }, onSuccess: (response) {
-      for (var element in response.data['content']) {
-        clients.add(ClientModel.fromJson(element));
-      }
-      pageIndicator++;
-      if (response.data['content'].isEmpty) {
-        isFinished = true;
-      }
-      update();
-    }, onError: (p0) {
-      ErrorHandler.handelError(p0);
-    });
+    isInternetAvailabale
+        ? await BaseClient.safeApiCall(
+            "${Constants.clients}/?keyword=$keyword&page=$page&size=15&sort=id,asc&idRegion=0&idLivreur=0&credit=0&echaience=false&idActivity=0&active=OUI",
+            RequestType.get,
+            headers: {
+                'Authorization': loginController.accessToken
+              }, onSuccess: (response) {
+            for (var element in response.data['content']) {
+              clients.add(ClientModel.fromJson(element));
+            }
+            pageIndicator++;
+            if (response.data['content'].isEmpty) {
+              isFinished = true;
+            }
+            update();
+          }, onError: (p0) {
+            isInternetAvailabale = !p0.message.contains("Failed host lookup");
+            ErrorHandler.handelError(p0);
+          })
+        : null;
     apiCallStatus = ApiCallStatus.success;
     update();
   }
@@ -62,6 +65,15 @@ class HomeController extends GetxController {
     pageIndicator = 0;
     clients.clear();
     await getClients(searchController.text, pageIndicator);
+  }
+
+  void clearSearch() async {
+    searchController.clear();
+    pageIndicator = 0;
+    isFinished = false;
+    clients.clear();
+    await fetchClients();
+    update();
   }
 
   @override

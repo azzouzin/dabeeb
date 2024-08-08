@@ -43,9 +43,6 @@ class LoginController extends GetxController {
         Get.toNamed(Routes.HOME);
       },
       onError: (p0) {
-        p0.message = p0.message.contains("Failed host lookup")
-            ? "Verifié votre connexion"
-            : p0.message;
         ErrorHandler.handelError(p0);
         isSeccssful = false;
       },

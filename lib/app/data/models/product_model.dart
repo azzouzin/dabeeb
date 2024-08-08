@@ -63,11 +63,11 @@ class ProductModel {
       this.qteUniteMesure,
       this.refFournisseur});
 
-  ProductModel.fromJson(Map<String, dynamic> json) {
+  ProductModel.fromJson(Map<String, dynamic> json, String clientType) {
     id = json["id"];
     code = json["code"];
     prixAchat = json["prixAchat"];
-    prixVente = json["prixVente"];
+    prixVente = json["prixVente" + clientType];
     prixVente2 = json["prixVente2"];
     prixVente3 = json["prixVente3"];
     prixVente4 = json["prixVente4"];
