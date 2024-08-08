@@ -28,15 +28,14 @@ class ProductlistController extends GetxController {
   bool isFinished = false;
 
   Future getProductByBarCode(String barCode) async {
-    // barCode = "00000000139";
+    //  barCode = "1000000000146";
     await BaseClient.safeApiCall(
       "${Constants.codeBareProduct}?barcode=$barCode",
       RequestType.get,
       headers: {'Authorization': loginController.accessToken},
       onSuccess: (response) {
-        final ProductModel product =
-            ProductModel.fromJson(response.data, clientType);
-        Logger().i(product.toJson());
+        product = ProductModel.fromJson(response.data, clientType);
+        Logger().i(product!.toJson());
         update();
         Get.toNamed(Routes.PRODUCTDETAILS, arguments: {"product": product});
       },
@@ -48,7 +47,7 @@ class ProductlistController extends GetxController {
     );
   }
 
-  // getting data from api
+// getting data from api
   Future getData(String keyword, String type) async {
     // apiCallStatus = ApiCallStatus.loading;
     // update();
@@ -110,7 +109,7 @@ class ProductlistController extends GetxController {
   void onInit() {
     clientType = cartController.selctedClient!.category!.toString();
     clientType = clientType == "1" ? "" : clientType;
-    print(clientType);
+    //    print(clientType);
     getData("", clientType);
 
     super.onInit();

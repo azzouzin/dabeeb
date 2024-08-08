@@ -97,7 +97,7 @@ class ProductlistView extends GetView<ProductlistController> {
                               options: const ScanOptions(),
                             );
 
-                            print(result.rawContent); // The barcode content
+                            controller.getProductByBarCode(result.rawContent);
 
                             if (result.rawContent == "") {
                               CustomSnackBar.showCustomErrorSnackBar(
